@@ -143,7 +143,7 @@ class WorkResource extends Resource
             $termino = $record->termino;
             return $termino
               ? ['class' => '']
-              : ['class' => 'text-success-600 font-bold'];
+              : ['class' => 'text-success-600 font-semi-bold'];
           })
           ->sortable(),
 
@@ -159,8 +159,10 @@ class WorkResource extends Resource
         Tables\Filters\Filter::make('created_at')
           ->form([
             Forms\Components\DatePicker::make('created_from')
-              ->placeholder(fn ($state): string => 'Dec 18, ' . now()->subYear()->format('Y')),
+            ->label('Creado desde: ')
+              ->placeholder(fn ($state): string => 'Ene 1, ' . now()->subYear()->format('Y')),
             Forms\Components\DatePicker::make('created_until')
+            ->label('Creado hasta: ')
               ->placeholder(fn ($state): string => now()->format('M d, Y')),
           ])
           ->query(function (Builder $query, array $data): Builder {
@@ -177,10 +179,10 @@ class WorkResource extends Resource
           ->indicateUsing(function (array $data): array {
             $indicators = [];
             if ($data['created_from'] ?? null) {
-              $indicators['created_from'] = 'Order from ' . Carbon::parse($data['created_from'])->toFormattedDateString();
+              $indicators['created_from'] = 'Trabajos desde: ' . Carbon::parse($data['created_from'])->toFormattedDateString();
             }
             if ($data['created_until'] ?? null) {
-              $indicators['created_until'] = 'Order until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
+              $indicators['created_until'] = 'Trabajos hasta: ' . Carbon::parse($data['created_until'])->toFormattedDateString();
             }
 
             return $indicators;
