@@ -134,7 +134,7 @@ class WorkResource extends Resource
           ->searchable()
           ->sortable(),
 
-        Tables\Columns\BadgeColumn::make('termino')
+        Tables\Columns\TextColumn::make('termino')
           ->date()
           ->label('Fecha término')
           ->placeholder('[ACTIVA]')
