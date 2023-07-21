@@ -1,0 +1,202 @@
+<?php
+
+namespace App\Filament\Resources\Manager;
+
+use App\Filament\Resources\Manager\WorkResource\Pages;
+use App\Filament\Resources\Manager\WorkResource\RelationManagers;
+
+use App\Models\Manager\Customer;
+use App\Models\Manager\Work;
+use Carbon\Carbon;
+use Closure;
+use Filament\Forms;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Resources\Form;
+use Filament\Resources\Resource;
+use Filament\Resources\Table;
+use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+class WorkResource extends Resource
+{
+  protected static ?string $model = Work::class;
+
+  protected static ?int $navigationSort = 2;
+
+  protected static ?string $slug = 'manager/works';
+
+  protected static ?string $recordTitleAttribute = 'title';
+
+  protected static ?string $modelLabel = 'Trabajo';
+
+  protected static ?string $pluralModelLabel = 'Trabajos';
+
+  protected static ?string $navigationGroup = 'Manager';
+
+  protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
+
+
+  public static function form(Form $form): Form
+  {
+    return $form
+      ->schema([
+
+        Forms\Components\Section::make('Detalles')
+          ->columns(3)
+          ->description('Detalles del trabajo.')
+          ->icon('heroicon-o-identification')
+          ->schema([
+
+            Forms\Components\TextInput::make('title')
+              ->label('Titulo:')
+              ->required()
+              ->reactive()
+              ->maxLength(255)
+              ->columnSpan('full'),
+
+
+            Forms\Components\Select::make('manager_customer_id')
+              ->label('Cliente')
+              ->options(Customer::all()->pluck('name', 'id'))
+              ->searchable()
+              ->required()
+              ->createOptionForm([
+                Forms\Components\TextInput::make('rut'),
+                //   ->required(),
+                Forms\Components\TextInput::make('name')
+                  ->required(),
+              ])
+              ->createOptionAction(function (Forms\Components\Actions\Action $action) {
+                return $action
+                  ->modalHeading('Crear cliente')
+                  ->modalButton('Crear')
+                  ->modalWidth('md');
+              })
+              ->createOptionUsing(function (array $data) {
+                if ($customer = Customer::create($data)) {
+                  return $customer->id;
+                }
+              })
+              ->columnSpan('full'),
+
+            Forms\Components\DateTimePicker::make('inicio')
+              ->withoutSeconds()
+              ->required()
+              ->default(today()),
+
+            Forms\Components\DateTimePicker::make('termino')
+              ->withoutSeconds()
+              ->minDate(fn (Closure $get) => Carbon::parse($get('inicio')))
+              ->hiddenOn('create'),
+
+          ]),
+
+        Forms\Components\Section::make('Descripcion')
+          ->columns(3)
+          ->description('descripcion del trabajo.')
+          ->icon('heroicon-o-document-text')
+          ->schema([
+
+            Forms\Components\RichEditor::make('descripcion')
+              ->disableToolbarButtons([
+                'attachFiles',
+                'codeBlock',
+              ])
+              ->columnSpan('full'),
+
+            SpatieMediaLibraryFileUpload::make('file')
+              ->label('Archivo djunto')
+              ->multiple()
+              ->preserveFilenames()
+              ->enableOpen()
+              ->enableDownload()
+              ->columnSpan('full'),
+          ]),
+
+      ]);
+  }
+
+  public static function table(Table $table): Table
+  {
+    return $table
+      ->columns([
+        Tables\Columns\TextColumn::make('title')
+          ->label('Titulo')
+          ->searchable()
+          ->sortable(),
+
+        Tables\Columns\TextColumn::make('inicio')
+          ->date()
+          ->label('Fecha inicio')
+          ->searchable()
+          ->sortable(),
+
+        Tables\Columns\TextColumn::make('termino')
+          ->date()
+          ->label('Fecha término')
+          ->placeholder('[ACTIVA]')
+          ->searchable()
+          ->extraAttributes(function (?Model $record) {
+            $termino = $record->termino;
+            return $termino
+              ? ['class' => '']
+              : ['class' => 'text-success-600 font-bold'];
+          })
+          ->sortable(),
+
+        Tables\Columns\TextColumn::make('customer.name')
+          ->label('Cliente')
+          ->searchable()
+          ->sortable(),
+
+      ])
+      ->filters([
+        Tables\Filters\TrashedFilter::make(),
+      ])
+      ->actions([
+        Tables\Actions\EditAction::make(),
+        Tables\Actions\DeleteAction::make(),
+        Tables\Actions\ForceDeleteAction::make(),
+        Tables\Actions\RestoreAction::make(),
+      ])
+      ->bulkActions([
+        Tables\Actions\DeleteBulkAction::make(),
+        Tables\Actions\ForceDeleteBulkAction::make(),
+        Tables\Actions\RestoreBulkAction::make(),
+      ]);
+  }
+
+  public static function getRelations(): array
+  {
+    return [
+      RelationManagers\BillsRelationManager::class,
+    ];
+  }
+
+  protected static function getNavigationBadge(): ?string
+  {
+    $model = static::getModel();
+    return $model::where('termino', '=', null)->count();
+  }
+
+  public static function getPages(): array
+  {
+    return [
+      'index' => Pages\ListWorks::route('/'),
+      'create' => Pages\CreateWork::route('/create'),
+      'view' => Pages\ViewWork::route('/{record}'),
+      'edit' => Pages\EditWork::route('/{record}/edit'),
+    ];
+  }
+
+  public static function getEloquentQuery(): Builder
+  {
+    return parent::getEloquentQuery()
+      ->withoutGlobalScopes([
+        SoftDeletingScope::class,
+      ]);
+  }
+}
