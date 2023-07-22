@@ -42,10 +42,11 @@ class WorkResource extends Resource
   public static function form(Form $form): Form
   {
     return $form
+      ->columns(3)
       ->schema([
 
         Forms\Components\Section::make('Detalles')
-          ->columns(3)
+          ->columns(2)
           ->description('Detalles del trabajo.')
           ->icon('heroicon-o-identification')
           ->schema([
@@ -82,6 +83,15 @@ class WorkResource extends Resource
               })
               ->columnSpan('full'),
 
+
+
+          ]),
+
+          Forms\Components\Section::make('Detalles')
+          ->columns(1)
+          ->description('Detalles del trabajo.')
+          ->icon('heroicon-o-identification')
+          ->schema([
             Forms\Components\DateTimePicker::make('inicio')
               ->withoutSeconds()
               ->required()
@@ -91,7 +101,6 @@ class WorkResource extends Resource
               ->withoutSeconds()
               ->minDate(fn (Closure $get) => Carbon::parse($get('inicio')))
               ->hiddenOn('create'),
-
           ]),
 
         Forms\Components\Section::make('Descripcion')
