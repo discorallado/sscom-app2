@@ -51,7 +51,7 @@ class CotizationResource extends Resource
 
   protected static ?string $navigationGroup = 'Manager';
 
-  protected static ?string $navigationIcon = 'fa-solid fa-house fa-beat';
+  protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
 
   public static function form(Form $form): Form

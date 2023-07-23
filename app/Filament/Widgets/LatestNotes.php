@@ -19,7 +19,7 @@ class LatestNotes extends BaseWidget
 
   public function getDefaultTableRecordsPerPageSelectOption(): int
   {
-    return 5;
+    return 10;
   }
 
   protected function getDefaultTableSortColumn(): ?string
@@ -54,6 +54,7 @@ class LatestNotes extends BaseWidget
   {
     return [
       'md' => 2,
+      'xl' => 3,
     ];
   }
   protected function getTableActions(): array
