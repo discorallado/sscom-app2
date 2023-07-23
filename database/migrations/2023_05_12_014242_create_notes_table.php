@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
+
             $table->string('title');
             $table->string('color',50)->default('primary')->nullable();
             $table->text('text')->nullable();

@@ -41,6 +41,11 @@ class User extends Authenticatable implements FilamentUser
         return true;
     }
 
+    public function note(): HasMany
+    {
+        return $this->hasMany(Note::class, 'user_id');
+    }
+
     public function cotization(): HasMany
     {
         return $this->hasMany(ModelsCotization::class, 'user_id');

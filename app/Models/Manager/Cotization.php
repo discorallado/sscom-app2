@@ -31,7 +31,6 @@ class Cotization extends Model implements HasMedia
 
     protected $casts = [
         'file' => 'array',
-         'iva' => 'boolean',
     ];
 
     /**
