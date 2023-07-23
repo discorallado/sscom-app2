@@ -1,2 +1,3 @@
 # sscom-app2
- ERP para cliente, ajustado a sus necesidades, basado en Laravel 10 implementando Livewire+Filament.
+ ERP para cliente, diseñado para sus necesidades.
+ Babasado en **Laravel 10** y **Filament TALL kit**
