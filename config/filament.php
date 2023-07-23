@@ -140,7 +140,7 @@ return [
         'path' => app_path('Filament/Widgets'),
         'register' => [
             Widgets\AccountWidget::class,
-            Widgets\FilamentInfoWidget::class,
+            // Widgets\FilamentInfoWidget::class,
         ],
     ],
 
@@ -225,13 +225,13 @@ return [
         'actions' => [
             'modal' => [
                 'actions' => [
-                    'alignment' => 'left',
+                    'alignment' => 'right',
                 ],
             ],
         ],
         'forms' => [
             'actions' => [
-                'alignment' => 'left',
+                'alignment' => 'right',
                 'are_sticky' => true,
             ],
             'have_inline_labels' => false,
