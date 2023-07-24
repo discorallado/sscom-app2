@@ -17,7 +17,7 @@ class OutdateResource extends Resource
 {
   protected static ?string $model = Outdate::class;
 
-  protected static ?int $navigationSort = 8;
+  protected static ?int $navigationSort = 9;
 
   protected static ?string $slug = 'manager/outdates';
 
