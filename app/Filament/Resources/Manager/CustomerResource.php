@@ -13,6 +13,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CustomerResource extends Resource
@@ -45,14 +46,14 @@ class CustomerResource extends Resource
               ->maxLength(12)
               ->columnSpan(1),
           ]),
-            Forms\Components\TextInput::make('name')
-              ->required()
-              ->columnSpan(2)
-              ->maxLength(191),
-            Forms\Components\TextInput::make('giro')
-              ->required()
-              ->columnSpan(1)
-              ->maxLength(191),
+        Forms\Components\TextInput::make('name')
+          ->required()
+          ->columnSpan(2)
+          ->maxLength(191),
+        Forms\Components\TextInput::make('giro')
+          ->required()
+          ->columnSpan(1)
+          ->maxLength(191),
 
         Forms\Components\MarkdownEditor::make('contacto')
           ->required()
@@ -68,8 +69,20 @@ class CustomerResource extends Resource
   {
     return $table
       ->columns([
-        Tables\Columns\TextColumn::make('rut'),
+        Tables\Columns\TextColumn::make('rut')
+        ->label('RUT')
+        ->placeholder('Sin RUT')
+          ->getStateUsing(function (Model $record) {
+            $rut = [];
+            $rut = explode('-', $record->rut);
+            if(isset($rut[1])){
+              return \number_format((int)$rut[0], 0, '', '.') . '-' . $rut[1];
+            }
+            return $record->rut;
+          }),
+
         Tables\Columns\TextColumn::make('name')
+        ->label('Nombre')
           ->words(4)
           ->tooltip(function (TextColumn $column): ?string {
             $state = $column->getState();
@@ -79,7 +92,8 @@ class CustomerResource extends Resource
             return $state;
           }),
 
-        Tables\Columns\TextColumn::make('contacto'),
+        Tables\Columns\TextColumn::make('contacto')
+        ->placeholder('Sin registro'),
 
         Tables\Columns\TextColumn::make('user.name')
           ->label('Creado por')
