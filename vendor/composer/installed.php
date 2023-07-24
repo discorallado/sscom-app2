@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'f1c99a59e5d8a8dd819686320fff352dae50436f',
+        'reference' => 'd2bc7233eb0488363a05518eb4df5d511d032c8f',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -293,8 +293,8 @@
             'dev_requirement' => false,
         ),
         'filament/spatie-laravel-tags-plugin' => array(
-            'pretty_version' => 'v2.17.50',
-            'version' => '2.17.50.0',
+            'pretty_version' => 'v2.17.51',
+            'version' => '2.17.51.0',
             'reference' => '70ed1268cdd3b631e90b8326c20882962674f57f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../filament/spatie-laravel-tags-plugin',
@@ -661,7 +661,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'f1c99a59e5d8a8dd819686320fff352dae50436f',
+            'reference' => 'd2bc7233eb0488363a05518eb4df5d511d032c8f',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

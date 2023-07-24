@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class NoteResource extends Resource
@@ -27,31 +28,32 @@ class NoteResource extends Resource
           ->required()
           ->maxLength(191),
         Forms\Components\RichEditor::make('text')
-        ->columnSpan('full'),
+          ->columnSpan('full'),
       ]);
   }
-protected function getTableContentGrid(): ?array
-{
+  protected function getTableContentGrid(): ?array
+  {
     return [
-        'sm' => 2,
+      'sm' => 2,
     ];
-}
+  }
   public static function table(Table $table): Table
   {
     return $table
       ->columns([
         Tables\Columns\TextColumn::make('title')
+          ->color(static fn (Model $record): string => $record->color)
           ->weight('bold'),
         Tables\Columns\TextColumn::make('text')
-        ->html(),
+          ->html(),
         Tables\Columns\TextColumn::make('user.name'),
         Tables\Columns\TextColumn::make('created_at')
           ->dateTime(),
       ])
       ->contentGrid([
-            'md' => 2,
-            'xl' => 3,
-        ])
+        'md' => 2,
+        'xl' => 3,
+      ])
       ->filters([
         Tables\Filters\TrashedFilter::make(),
       ])

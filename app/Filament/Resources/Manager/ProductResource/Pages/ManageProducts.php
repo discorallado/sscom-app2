@@ -21,4 +21,9 @@ class ManageProducts extends ManageRecords
             }),
         ];
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return ProductResource::getWidgets();
+    }
 }

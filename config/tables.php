@@ -40,7 +40,7 @@ return [
     |
     */
 
-    'dark_mode' => false,
+    'dark_mode' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     */
 
     'pagination' => [
-        'default_records_per_page' => 10,
+        'default_records_per_page' => 25,
         'records_per_page_select_options' => [5, 10, 25, 50, -1],
     ],
 
@@ -72,7 +72,7 @@ return [
             ],
             'modal' => [
                 'actions' => [
-                    'alignment' => 'left',
+                    'alignment' => 'right',
                 ],
             ],
         ],

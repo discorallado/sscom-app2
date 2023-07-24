@@ -371,6 +371,7 @@ class CotizationResource extends Resource
                   ->default(1)
                   ->required()
                   ->reactive()
+                  ->rules(['integer', 'min:0'])
                   ->afterStateUpdated(function ($get, $set, $state) {
                     $set('total', (int)$get('precio_anotado') * (int)$get('cantidad'));
                     $repeaters = $get('../../items');

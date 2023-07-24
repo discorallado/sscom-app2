@@ -845,8 +845,8 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
             0 => __DIR__ . '/..' . '/filament/filament/src',
             1 => __DIR__ . '/..' . '/filament/spatie-laravel-media-library-plugin/src',
             2 => __DIR__ . '/..' . '/filament/spatie-laravel-settings-plugin/src',
-            3 => __DIR__ . '/..' . '/filament/spatie-laravel-tags-plugin/src',
-            4 => __DIR__ . '/..' . '/filament/spatie-laravel-translatable-plugin/src',
+            3 => __DIR__ . '/..' . '/filament/spatie-laravel-translatable-plugin/src',
+            4 => __DIR__ . '/..' . '/filament/spatie-laravel-tags-plugin/src',
         ),
         'Faker\\' => 
         array (
@@ -1078,6 +1078,7 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         'App\\Filament\\Resources\\Manager\\PaymentResource\\Pages\\ViewPayment' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/PaymentResource/Pages/ViewPayment.php',
         'App\\Filament\\Resources\\Manager\\ProductResource' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/ProductResource.php',
         'App\\Filament\\Resources\\Manager\\ProductResource\\Pages\\ManageProducts' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/ProductResource/Pages/ManageProducts.php',
+        'App\\Filament\\Resources\\Manager\\ProductResource\\Widgets\\ProductStats' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/ProductResource/Widgets/ProductStats.php',
         'App\\Filament\\Resources\\Manager\\WorkResource' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/WorkResource.php',
         'App\\Filament\\Resources\\Manager\\WorkResource\\Pages\\CreateWork' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/WorkResource/Pages/CreateWork.php',
         'App\\Filament\\Resources\\Manager\\WorkResource\\Pages\\EditWork' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/WorkResource/Pages/EditWork.php',

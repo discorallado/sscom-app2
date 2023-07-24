@@ -100,6 +100,7 @@ return array(
     'App\\Filament\\Resources\\Manager\\PaymentResource\\Pages\\ViewPayment' => $baseDir . '/app/Filament/Resources/Manager/PaymentResource/Pages/ViewPayment.php',
     'App\\Filament\\Resources\\Manager\\ProductResource' => $baseDir . '/app/Filament/Resources/Manager/ProductResource.php',
     'App\\Filament\\Resources\\Manager\\ProductResource\\Pages\\ManageProducts' => $baseDir . '/app/Filament/Resources/Manager/ProductResource/Pages/ManageProducts.php',
+    'App\\Filament\\Resources\\Manager\\ProductResource\\Widgets\\ProductStats' => $baseDir . '/app/Filament/Resources/Manager/ProductResource/Widgets/ProductStats.php',
     'App\\Filament\\Resources\\Manager\\WorkResource' => $baseDir . '/app/Filament/Resources/Manager/WorkResource.php',
     'App\\Filament\\Resources\\Manager\\WorkResource\\Pages\\CreateWork' => $baseDir . '/app/Filament/Resources/Manager/WorkResource/Pages/CreateWork.php',
     'App\\Filament\\Resources\\Manager\\WorkResource\\Pages\\EditWork' => $baseDir . '/app/Filament/Resources/Manager/WorkResource/Pages/EditWork.php',
