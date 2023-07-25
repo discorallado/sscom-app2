@@ -203,8 +203,8 @@ class PaymentResource extends Resource
               Tables\Columns\BadgeColumn::make('bill.tipo')
                 ->weight('bold')
                 ->colors([
+                  'warning' => 'COSTO',
                   'success' => 'VENTA',
-                  'warning' => 'Costo',
                 ])
                 ->icon('heroicon-o-document-text'),
 
