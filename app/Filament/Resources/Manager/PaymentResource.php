@@ -30,6 +30,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\Layout\Grid;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\HtmlString;
 
@@ -90,7 +91,7 @@ class PaymentResource extends Resource
                 Forms\Components\Select::make('manager_cotization_id')
                   ->label('Cotizacion:')
                   ->reactive()
-                  ->disabled(fn (Closure $get) => $get('manager_work_id')?false:true)
+                  ->disabled(fn (Closure $get) => $get('manager_work_id') ? false : true)
                   ->options(function (callable $get) {
                     $work = Work::find($get('manager_work_id'));
                     if (!$work) {
@@ -107,7 +108,7 @@ class PaymentResource extends Resource
                 Forms\Components\Select::make('manager_bill_id')
                   ->label('Factura:')
                   ->reactive()
-                  ->disabled(fn (Closure $get) => $get('manager_work_id')?false:true)
+                  ->disabled(fn (Closure $get) => $get('manager_work_id') ? false : true)
                   ->options(function (callable $get) {
                     $work = Work::find($get('manager_work_id'));
                     // dd($work);
@@ -196,15 +197,24 @@ class PaymentResource extends Resource
     return $table
       ->columns([
         Split::make([
-          Grid::make(5)
+
+          Grid::make(6)
             ->schema([
+              Tables\Columns\BadgeColumn::make('bill.tipo')
+                ->weight('bold')
+                ->colors([
+                  'success' => 'VENTA',
+                  'warning' => 'Costo',
+                ])
+                ->icon('heroicon-o-document-text'),
+
               Stack::make([
                 Tables\Columns\TextColumn::make('bill.work.customer.name')
-                ->sortable()
+                  ->sortable()
                   ->icon('heroicon-s-user-group')
                   ->size('sm'),
                 Tables\Columns\TextColumn::make('bill.work.title')
-                ->sortable()
+                  ->sortable()
                   ->icon('heroicon-o-briefcase'),
                 // Tables\Columns\TextColumn::make('bill.work.cotization.codigo'),
               ])
@@ -212,14 +222,21 @@ class PaymentResource extends Resource
 
               Stack::make([
                 //   Tables\Columns\TextColumn::make('tipo')
-                Tables\Columns\TextColumn::make('bill.doc')->weight('bold')
+                Tables\Columns\BadgeColumn::make('bill.doc')
+                  ->weight('bold')
+                //   ->color(function (Model $record) {
+                //     if ($record->Bill->tipo == "VENTA") {
+                //       return "success";
+                //     }
+                //     return "warning";
+                //   })
                   ->icon('heroicon-o-document-text'),
+
                 Tables\Columns\TextColumn::make('fecha')
-                ->sortable()
+                  ->sortable()
                   ->date(),
               ])
                 ->columnSpan(1),
-
 
               Tables\Columns\TextColumn::make('abono')
                 ->description('Abono')
@@ -232,8 +249,9 @@ class PaymentResource extends Resource
                 ->money('clp'),
             ]),
         ]),
+
         // Tables\Columns\TextColumn::make('fecha')
-        //     ->date(),
+        //   ->date(),
         // Tables\Columns\TextColumn::make('tipo'),
 
         // // Tables\Columns\TextColumn::make('monto'),
@@ -242,32 +260,26 @@ class PaymentResource extends Resource
         // // ->wrap(),
         // // Tables\Columns\TextColumn::make('file'),
         // Tables\Columns\TextColumn::make('total_price')
-        // ->money('clp'),
+        //   ->money('clp'),
         // // Tables\Columns\TextColumn::make('abono'),
         // Tables\Columns\TextColumn::make('saldo')
-        // ->money('clp'),
+        //   ->money('clp'),
         // // Tables\Columns\TextColumn::make('observaciones'),
         // // Tables\Columns\TextColumn::make('user.name'),
         // Tables\Columns\TextColumn::make('customer.name')
-        // ->words(2),
+        //   ->words(2),
       ])
       ->defaultSort('created_at', 'desc')
       ->filters([
         Tables\Filters\TrashedFilter::make(),
       ])
       ->actions([
-        Tables\Actions\ViewAction::make(),
         Tables\Actions\EditAction::make()
           ->slideOver(),
         Tables\Actions\DeleteAction::make(),
         Tables\Actions\ForceDeleteAction::make(),
         Tables\Actions\RestoreAction::make(),
       ])
-      // ->bulkActions([
-      //     Tables\Actions\DeleteBulkAction::make(),
-      //     Tables\Actions\ForceDeleteBulkAction::make(),
-      //     Tables\Actions\RestoreBulkAction::make(),
-      // ]);
       ->bulkActions([
         Tables\Actions\DeleteBulkAction::make(),
         Tables\Actions\ForceDeleteBulkAction::make(),
@@ -298,7 +310,6 @@ class PaymentResource extends Resource
     //   'edit' => Pages\EditPayment::route('/{record}/edit'),
     // ];
   }
-
 
   public static function getEloquentQuery(): Builder
   {

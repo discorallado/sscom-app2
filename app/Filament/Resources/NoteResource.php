@@ -18,6 +18,19 @@ class NoteResource extends Resource
 {
   protected static ?string $model = Note::class;
 
+  protected static ?string $slug = 'notes';
+
+  protected static ?string $modelLabel = 'Anotacion';
+
+  protected static ?string $pluralModelLabel = 'Anotaciones';
+
+  protected static ?int $navigationSort = 0;
+
+
+  protected static ?string $recordTitleAttribute = 'titulo';
+
+  //   protected static ?string $navigationGroup = 'Manager';
+
   protected static ?string $navigationIcon = 'heroicon-o-collection';
 
   public static function form(Form $form): Form
@@ -50,6 +63,7 @@ class NoteResource extends Resource
         Tables\Columns\TextColumn::make('created_at')
           ->dateTime(),
       ])
+      ->defaultSort('created_at', 'desc')
       ->contentGrid([
         'md' => 2,
         'xl' => 3,

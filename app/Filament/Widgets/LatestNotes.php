@@ -9,6 +9,7 @@ use App\Models\Shop\Order;
 use Filament\Tables;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Squire\Models\Currency;
 
 class LatestNotes extends BaseWidget
@@ -16,6 +17,9 @@ class LatestNotes extends BaseWidget
   protected int | string | array $columnSpan = 'full';
 
   protected static ?int $sort = 1;
+
+  protected static ?string $heading = 'Anotaciones';
+
 
   public function getDefaultTableRecordsPerPageSelectOption(): int
   {
@@ -41,6 +45,7 @@ class LatestNotes extends BaseWidget
   {
     return [
       Tables\Columns\TextColumn::make('title')
+        ->color(static fn (Model $record): string => $record->color)
         ->weight('bold'),
       Tables\Columns\TextColumn::make('text')
         ->html(),

@@ -69,6 +69,7 @@ class BillResource extends Resource
               ->hint('ej: FAC4321')
               ->default('FAC')
               ->autofocus()
+              ->unique()
               ->required()
               ->prefixIcon('heroicon-o-hashtag')
               ->maxLength(191),
@@ -88,8 +89,6 @@ class BillResource extends Resource
               ])
 
           ]),
-
-
         Section::make('Venta')
           ->description('Factura de venta')
           ->icon('heroicon-o-chevron-double-up')
@@ -244,13 +243,16 @@ class BillResource extends Resource
         Tables\Columns\TextColumn::make('fecha')
           ->sortable()
           ->date(),
+        Tables\Columns\BadgeColumn::make('doc')
+        ->color('primary')
+          ->sortable(),
 
         Tables\Columns\BadgeColumn::make('tipo')
           ->sortable()
           ->colors([
-            'primary' => 'VENTA',
-            'success' => 'PAGO',
-          ]),
+                    'success' => 'VENTA',
+                    'warning' => 'COSTO',
+                  ]),
 
         Tables\Columns\TextColumn::make('work.title')
           ->sortable(),

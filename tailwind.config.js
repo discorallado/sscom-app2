@@ -4,11 +4,19 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
   content: [
+    './app/Filament/**/*.php',
     './resources/**/*.blade.php',
     './vendor/filament/**/*.blade.php',
-        "./vendor/suleymanozev/**/*.blade.php", // Add this line
+    "./vendor/suleymanozev/**/*.blade.php", // Add this line
 
   ],
+  safelist: [
+        'border-green-600',
+        'border-l-2',
+        'border-orange-600',
+        'dark:border-orange-300',
+        'opacity-30',
+    ],
   darkMode: 'class',
   theme: {
     extend: {
