@@ -27,6 +27,7 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput\Mask;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
 use Suleymanozev\FilamentRadioButtonField\Forms\Components\RadioButton;
 
@@ -241,28 +242,35 @@ class BillResource extends Resource
       ->defaultSort('created_at', 'desc')
       ->columns([
         Tables\Columns\TextColumn::make('fecha')
+        ->searchable()
           ->sortable()
           ->date(),
         Tables\Columns\BadgeColumn::make('doc')
-        ->color('primary')
+        ->searchable()
+          ->color('primary')
           ->sortable(),
 
         Tables\Columns\BadgeColumn::make('tipo')
+        ->searchable()
           ->sortable()
           ->colors([
-                    'success' => 'VENTA',
-                    'warning' => 'COSTO',
-                  ]),
+            'success' => 'VENTA',
+            'warning' => 'COSTO',
+          ]),
 
         Tables\Columns\TextColumn::make('work.title')
+        ->searchable()
+        ->size('sm')
           ->sortable(),
 
         Tables\Columns\TextColumn::make('cotization.codigo')
+        ->searchable()
           ->placeholder('S/C')
           ->sortable()
           ->size('sm'),
 
         Tables\Columns\TextColumn::make('total_price')
+        ->searchable()
           ->sortable()
           ->label('Valor')
           ->money('clp'),
@@ -272,18 +280,61 @@ class BillResource extends Resource
           ->sum('payments', 'abono')
           ->placeholder('$0')
           ->sortable()
-          ->money('clp'),
+          ->searchable()
+          ->money('clp')
+          ->iconPosition('after')
+          ->icon(function (Model $record) {
+            if ((int)$record->saldo == 0) {
+              return 'heroicon-o-badge-check';
+            }
+            return null;
+          })
+          ->color(function (Model $record) {
+            if ((int)$record->saldo == 0) {
+              return 'success';
+            }
+            return null;
+          }),
+
+          Tables\Columns\TextColumn::make('user.name')
+          ->label('Creado por')
+          ->searchable()
+          ->toggleable(isToggledHiddenByDefault: true)
+          ->sortable(),
+        Tables\Columns\TextColumn::make('created_at')
+          ->label('Creado el')
+          ->searchable()
+          ->dateTime()
+          ->toggleable(isToggledHiddenByDefault: true)
+          ->sortable(),
+        Tables\Columns\TextColumn::make('updated_at')
+          ->label('Modificado el')
+          ->searchable()
+          ->dateTime()
+          ->toggleable(isToggledHiddenByDefault: true)
+          ->sortable(),
+        Tables\Columns\TextColumn::make('deleted_at')
+          ->label('Eliminado el')
+          ->searchable()
+          ->dateTime()
+          ->toggleable(isToggledHiddenByDefault: true)
+          ->placeholder('Nunca')
+          ->sortable(),
 
       ])
+      ->defaultSort('created_at', 'desc')
       ->filters([
         Tables\Filters\TrashedFilter::make(),
       ])
       ->actions([
-        Tables\Actions\ViewAction::make(),
-        Tables\Actions\EditAction::make(),
-        Tables\Actions\DeleteAction::make(),
-        Tables\Actions\ForceDeleteAction::make(),
-        Tables\Actions\RestoreAction::make(),
+        Tables\Actions\ActionGroup::make([
+
+          Tables\Actions\ViewAction::make(),
+          Tables\Actions\EditAction::make(),
+          Tables\Actions\DeleteAction::make(),
+          Tables\Actions\ForceDeleteAction::make(),
+          Tables\Actions\RestoreAction::make(),
+        ])
       ])
       ->bulkActions([
         Tables\Actions\DeleteBulkAction::make(),

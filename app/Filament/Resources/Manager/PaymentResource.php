@@ -198,23 +198,22 @@ class PaymentResource extends Resource
       ->columns([
         Split::make([
 
-          Grid::make(6)
+          Grid::make(7)
             ->schema([
-              Tables\Columns\BadgeColumn::make('bill.tipo')
-                ->weight('bold')
-                ->colors([
-                  'warning' => 'COSTO',
-                  'success' => 'VENTA',
-                ])
-                ->icon('heroicon-o-document-text'),
-
+              Tables\Columns\BadgeColumn::make('fecha')
+                ->color('success')
+                ->sortable()
+                ->searchable()
+                ->date(),
               Stack::make([
-                Tables\Columns\TextColumn::make('bill.work.customer.name')
+                Tables\Columns\TextColumn::make('work.customer.name')
                   ->sortable()
+                  ->searchable()
                   ->icon('heroicon-s-user-group')
                   ->size('sm'),
-                Tables\Columns\TextColumn::make('bill.work.title')
+                Tables\Columns\TextColumn::make('work.title')
                   ->sortable()
+                  ->searchable()
                   ->icon('heroicon-o-briefcase'),
                 // Tables\Columns\TextColumn::make('bill.work.cotization.codigo'),
               ])
@@ -224,28 +223,55 @@ class PaymentResource extends Resource
                 //   Tables\Columns\TextColumn::make('tipo')
                 Tables\Columns\BadgeColumn::make('bill.doc')
                   ->weight('bold')
-                //   ->color(function (Model $record) {
-                //     if ($record->Bill->tipo == "VENTA") {
-                //       return "success";
-                //     }
-                //     return "warning";
-                //   })
+                  ->sortable()
+                  ->searchable()
+                  //   ->color(function (Model $record) {
+                  //     if ($record->Bill->tipo == "VENTA") {
+                  //       return "success";
+                  //     }
+                  //     return "warning";
+                  //   })
                   ->icon('heroicon-o-document-text'),
 
-                Tables\Columns\TextColumn::make('fecha')
-                  ->sortable()
-                  ->date(),
               ])
                 ->columnSpan(1),
 
+              Tables\Columns\TextColumn::make('total_price')
+                ->description('Deuda')
+                ->searchable()
+                ->columnSpan(1)
+                ->money('clp'),
+
               Tables\Columns\TextColumn::make('abono')
                 ->description('Abono')
+                ->searchable()
                 ->columnSpan(1)
                 ->money('clp'),
 
               Tables\Columns\TextColumn::make('saldo')
                 ->description('Saldo')
+                ->searchable()
                 ->columnSpan(1)
+                ->iconPosition('after')
+                ->icon(function (Model $record) {
+                  if((int)$record->saldo == 0){
+                  return 'heroicon-o-badge-check';
+                  }
+                  return null;
+                })
+                ->color(function (Model $record) {
+                  if((int)$record->saldo == 0){
+                  return 'success';
+                  }
+                  return null;
+                })
+                ->weight(function (Model $record) {
+                  if((int)$record->saldo == 0){
+                  return 'bold';
+                  }
+                  return null;
+                })
+
                 ->money('clp'),
             ]),
         ]),
@@ -274,11 +300,13 @@ class PaymentResource extends Resource
         Tables\Filters\TrashedFilter::make(),
       ])
       ->actions([
-        Tables\Actions\EditAction::make()
-          ->slideOver(),
-        Tables\Actions\DeleteAction::make(),
-        Tables\Actions\ForceDeleteAction::make(),
-        Tables\Actions\RestoreAction::make(),
+        Tables\Actions\ActionGroup::make([
+          Tables\Actions\EditAction::make()
+            ->slideOver(),
+          Tables\Actions\DeleteAction::make(),
+          Tables\Actions\ForceDeleteAction::make(),
+          Tables\Actions\RestoreAction::make(),
+        ]),
       ])
       ->bulkActions([
         Tables\Actions\DeleteBulkAction::make(),

@@ -61,43 +61,54 @@ class PaymentsRelationManager extends RelationManager
                 ->where('manager_bill_id', '=', $livewire->ownerRecord->id)
                 ->orderBy('fecha', 'DESC')
                 ->get('saldo');
-              if (count($consulta) > 0) {
-                return (string)$consulta[0]->saldo;
-              } else {
-                return (string)$livewire->ownerRecord->total_price;
-              }
+                if (count($consulta) > 0) {
+                  return (string)$consulta[0]->saldo;
+                } else {
+                  return (string)$livewire->ownerRecord->total_price;
+                }
             })
             ->mask(fn (TextInput\Mask $mask) => $mask->money(prefix: '$', thousandsSeparator: '.', decimalPlaces: 0))
             ->afterStateUpdated(function ($state, callable $set, callable $get) {
               $set('saldo', (string)floor((int)$get('total_price') - (int)$get('abono')));
             }),
 
-          Forms\Components\TextInput::make('abono')
-            ->label('Abono:')
-            ->reactive()
-            ->default('0')
-            ->required()
-            ->lte('total_price')
-            ->afterStateUpdated(function ($state, callable $set, callable $get) {
-              $set('saldo', (string)floor((int)$get('total_price') - (int)$get('abono')));
-            })
-            ->mask(fn (TextInput\Mask $mask) => $mask->money(prefix: '$', thousandsSeparator: '.', decimalPlaces: 0)),
+            Forms\Components\TextInput::make('abono')
+              ->label('Abono:')
+              ->reactive()
+              ->default('0')
+              ->required()
+              ->lte('total_price')
+              ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                $set('saldo', (string)floor((int)$get('total_price') - (int)$get('abono')));
+              })
+              ->mask(fn (TextInput\Mask $mask) => $mask->money(prefix: '$', thousandsSeparator: '.', decimalPlaces: 0)),
 
-          Forms\Components\TextInput::make('saldo')
-            ->label('Saldo:')
-            ->disabled()
-            ->default('0')
-            ->reactive()
-            ->required()
-            ->default(function (callable $get): string {
-              return (string)$get('total_price');
-            })
-            ->mask(fn (TextInput\Mask $mask) => $mask->money(prefix: '$', thousandsSeparator: '.', decimalPlaces: 0)),
+            Forms\Components\TextInput::make('saldo')
+              ->label('Saldo:')
+              ->disabled()
+              ->default('0')
+              ->reactive()
+              ->required()
+              ->default(function (callable $get): string {
+                return (string)$get('total_price');
+              })
+              ->mask(fn (TextInput\Mask $mask) => $mask->money(prefix: '$', thousandsSeparator: '.', decimalPlaces: 0)),
+
         ]),
 
         Forms\Components\RichEditor::make('descripcion')
           ->columnSpan('full')
           ->maxLength(65535),
+
+        Forms\Components\Hidden::make('manager_work_id')
+          ->default(function (RelationManager $livewire) {
+            return $livewire->ownerRecord->manager_work_id;
+          }),
+
+        Forms\Components\Hidden::make('manager_cotization_id')
+          ->default(function (RelationManager $livewire) {
+            return $livewire->ownerRecord->manager_cotization_id;
+          }),
 
         SpatieMediaLibraryFileUpload::make('file')
           ->label('Adjunto')
@@ -117,6 +128,7 @@ class PaymentsRelationManager extends RelationManager
         Tables\Columns\TextColumn::make('abono'),
         Tables\Columns\TextColumn::make('saldo'),
       ])
+      ->defaultSort('created_at', 'desc')
       ->filters([
         Tables\Filters\TrashedFilter::make()
       ])
