@@ -14,14 +14,15 @@ class CotizationStats extends BaseWidget
     {
         $cotizationData = Trend::model(Cotization::class)
             ->between(
-                start: now()->subWeek(),
+                start: now()->subMonth(),
                 end: now(),
             )
+            ->dateColumn('fecha')
             ->perDay()
             ->count();
 
         return [
-            Card::make('Cotizaciones', Cotization::where('fecha', '>=', now()->subWeek())->count())
+            Card::make('Cotizaciones el último mes', Cotization::where('fecha', '>=', now()->subMonth())->count())
             ->color('success')
                 ->chart(
                     $cotizationData

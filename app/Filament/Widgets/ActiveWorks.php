@@ -2,30 +2,31 @@
 
 namespace App\Filament\Widgets;
 
-use App\Filament\Resources\NoteResource;
-use App\Models\Note;
+use App\Filament\Resources\Manager\WorkResource;
+use App\Models\Manager\Work;
 use Filament\Tables;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Squire\Models\Currency;
 
-class LatestNotes extends BaseWidget
+class ActiveWorks extends BaseWidget
 {
   protected int | string | array $columnSpan = 'full';
 
   protected static ?int $sort = 1;
 
-  protected static ?string $heading = 'Anotaciones';
+  protected static ?string $heading = 'Proyectos activos';
+
 
   protected function getTableRecordsPerPageSelectOptions(): array
   {
-    return [6, 12];
+    return [3, 6];
   }
 
   public function getDefaultTableRecordsPerPageSelectOption(): int
   {
-    return 6;
+    return 3;
   }
 
   protected function getDefaultTableSortColumn(): ?string
@@ -40,17 +41,14 @@ class LatestNotes extends BaseWidget
 
   protected function getTableQuery(): Builder
   {
-    return NoteResource::getEloquentQuery();
+    return WorkResource::getEloquentQuery();
   }
 
   protected function getTableColumns(): array
   {
     return [
       Tables\Columns\TextColumn::make('title')
-        ->color(static fn (Model $record): string => $record->color)
         ->weight('bold'),
-      Tables\Columns\TextColumn::make('text')
-        ->html(),
       Tables\Columns\TextColumn::make('user.name'),
       Tables\Columns\TextColumn::make('created_at')
         ->dateTime(),
@@ -68,7 +66,7 @@ class LatestNotes extends BaseWidget
   {
     return [
       Tables\Actions\Action::make('open')
-        ->url(fn (Note $record): string => NoteResource::getUrl('index', ['record' => $record])),
+        ->url(fn (Work $record): string => WorkResource::getUrl('index', ['record' => $record])),
     ];
   }
 }

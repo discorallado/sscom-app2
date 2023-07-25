@@ -30,9 +30,9 @@ class WorkResource extends Resource
 
   protected static ?string $recordTitleAttribute = 'title';
 
-  protected static ?string $modelLabel = 'Trabajo';
+  protected static ?string $modelLabel = 'Proyecto';
 
-  protected static ?string $pluralModelLabel = 'Trabajos';
+  protected static ?string $pluralModelLabel = 'Proyectos';
 
   protected static ?string $navigationGroup = 'Manager';
 

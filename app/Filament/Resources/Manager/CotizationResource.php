@@ -203,9 +203,9 @@ class CotizationResource extends Resource
           }),
       ])
       ->actions([
-        // Tables\Actions\ViewAction::make(),
+        Tables\Actions\ActionGroup::make([
         Tables\Actions\Action::make('pdf')
-          ->label('PDF')
+          ->label('Descargar PDF')
           ->color('success')
           ->icon('heroicon-s-download')
           ->action(function (Model $record) {
@@ -216,8 +216,11 @@ class CotizationResource extends Resource
             }, $record->codigo . '_' . $record->Work->Customer->name . '_' . $record->Work->name . '.pdf');
           })
           ->openUrlInNewTab(),
+        // Tables\Actions\ViewAction::make(),
         Tables\Actions\EditAction::make(),
         Tables\Actions\DeleteAction::make(),
+
+        ])
       ])
       ->bulkActions([
         Tables\Actions\DeleteBulkAction::make(),

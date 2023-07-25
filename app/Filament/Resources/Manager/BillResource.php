@@ -90,6 +90,7 @@ class BillResource extends Resource
               ])
 
           ]),
+
         Section::make('Venta')
           ->description('Factura de venta')
           ->icon('heroicon-o-chevron-double-up')
