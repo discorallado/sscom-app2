@@ -9,7 +9,9 @@ use App\Models\Manager\Customer;
 
 use App\Filament\Resources\Manager\BillResource\Pages;
 use App\Filament\Resources\Manager\BillResource\RelationManagers;
+use App\Filament\Resources\Manager\BillResource\Widgets\BillStats;
 use App\Models\Manager\Bill;
+use App\Models\Manager\Payment;
 use App\Models\Manager\Work;
 use Closure;
 use Filament\Forms;
@@ -68,35 +70,12 @@ class BillResource extends Resource
             Forms\Components\TextInput::make('doc')
               ->label('Numero de documento')
               ->hint('ej: FAC4321')
-              ->default('FAC')
+              ->mask(fn (TextInput\Mask $mask) => $mask->pattern('{FAC}0000`[000000000000]'))
               ->autofocus()
-              ->unique()
+              ->unique(ignorable: fn ($record) => $record)
               ->required()
               ->prefixIcon('heroicon-o-hashtag')
               ->maxLength(191),
-
-            RadioButton::make('tipo')
-              ->columnSpan(3)
-              ->columns(2)
-              ->label('Tipo de factura')
-              ->reactive()
-              ->options([
-                'VENTA' => 'Factura de VENTA',
-                'COSTO' => 'Factura de COMPRA',
-              ])
-              ->descriptions([
-                'VENTA' => 'La factura se guarda como venta.',
-                'COSTO' => 'La factura se guarda como compra.',
-              ])
-
-          ]),
-
-        Section::make('Venta')
-          ->description('Factura de venta')
-          ->icon('heroicon-o-chevron-double-up')
-          ->columns(3)
-          ->visible(fn (Closure $get) => $get('tipo') == 'VENTA')
-          ->schema([
 
             Forms\Components\Select::make('manager_work_id')
               ->label('Trabajo')
@@ -105,7 +84,6 @@ class BillResource extends Resource
               ->afterStateUpdated(function (callable $set, callable $get) {
                 $set('manager_cotization_id', null);
                 $set('total_price', '0');
-                $set('customer',  Work::find($get('manager_work_id'))?->manager_customer_id);
               })
               ->required()
               ->columnSpan(2),
@@ -122,68 +100,54 @@ class BillResource extends Resource
                 }
               })
               ->afterStateUpdated(function (Closure $get, Closure $set, $state) {
-                $total_price =  (string)Cotization::find($state)->total_price;
-                $set('total_price', $total_price);
-                $set('customer',  Cotization::find($state)?->manager_customer_id);
+                if ((string)$get('tipo') == 'VENTA') {
+                  $total_price =  (string)Cotization::find((int)$get('manager_cotization_id'))->total_price;
+                  $set('total_price', $total_price);
+                }
               })
               ->columnSpan(1),
-
-            Forms\Components\Select::make('customer')
-              ->label('Cliente:')
-              ->reactive()
-              ->options(Customer::all()->pluck('name', 'id'))
-              ->disabled()
-              ->columnSpan(3),
 
           ]),
 
-        Section::make('Gasto')
-          ->icon('heroicon-o-chevron-double-down')
-          ->description('Factura de compra')
-          ->visible(fn (Closure $get) => $get('tipo') == 'COSTO')
-          ->columns(3)
+        RadioButton::make('tipo')
+          ->columnSpan(3)
+          ->columns(2)
+          ->label('Tipo de factura')
+          ->reactive()
+          ->options([
+            'VENTA' => 'Factura de VENTA',
+            'COSTO' => 'Factura de COMPRA',
+          ])
+          ->descriptions([
+            'VENTA' => 'Para facturar una cotizacion.',
+            'COSTO' => 'La factura se guardará como compra.',
+          ])
+          ->disabled(fn (Closure $get) => $get('manager_work_id') === null)
+          ->afterStateUpdated(function (Closure $get, Closure $set, $state) {
+            if ((string)$state == 'VENTA') {
+              if ($get('manager_work_id')) {
+                $set('customer',  Work::find((int)$get('manager_work_id'))?->manager_customer_id);
+              }
+              if ($get('manager_cotization_id')) {
+                $total_price =  (string)Cotization::find((int)$get('manager_cotization_id'))->total_price;
+                $set('total_price', $total_price);
+              }
+            } elseif ((string)$state == 'COSTO') {
+              $set('customer', null);
+              $set('total_price', '0');
+            }
+          }),
+
+        Section::make('Receptor')
+          ->description('Quien recibe la factura')
+          ->icon('heroicon-o-user-circle')
           ->schema([
             Forms\Components\Select::make('customer')
-              ->label('Proveedor')
+              ->label(false)
+              ->reactive()
+              ->searchable()
               ->options(Customer::all()->pluck('name', 'id'))
-              ->columnSpan(3)
-              ->createOptionForm([
-                Forms\Components\TextInput::make('name')
-                  ->required(),
-                Forms\Components\TextInput::make('rut'),
-              ])
-              ->createOptionAction(function (Forms\Components\Actions\Action $action) {
-                return $action
-                  ->modalHeading('Crear cliente')
-                  ->modalButton('Crear cliente')
-                  ->modalWidth('sm');
-              })
-              ->createOptionUsing(function (array $data) {
-                if ($customer = Customer::create($data)) {
-                  return $customer->id;
-                }
-              }),
-
-            Forms\Components\Select::make('manager_work_id')
-              ->label('Trabajo')
-              ->options(Work::all()->pluck('title', 'id')->toArray())
-              ->afterStateUpdated(function (callable $set, callable $get) {
-                $set('manager_cotization_id', null);
-                $set('customer',  Work::find($get('manager_work_id'))?->manager_customer_id);
-              })
-              ->columnSpan(2),
-
-            Forms\Components\Select::make('manager_cotization_id')
-              ->label('Cotizacion')
-              ->options(function (callable $get) {
-                $work = Work::find($get('manager_work_id'));
-                if (!$work) {
-                  return Cotization::all()->pluck('codigo', 'id');
-                } else {
-                  return $work->cotization->pluck('codigo', 'id')->toArray();
-                }
-              })
-              ->columnSpan(1),
+              ->columnSpan(3),
 
           ]),
 
@@ -240,19 +204,18 @@ class BillResource extends Resource
   public static function table(Table $table): Table
   {
     return $table
-      ->defaultSort('created_at', 'desc')
       ->columns([
         Tables\Columns\TextColumn::make('fecha')
-        ->searchable()
+          ->searchable()
           ->sortable()
           ->date(),
         Tables\Columns\BadgeColumn::make('doc')
-        ->searchable()
+          ->searchable()
           ->color('primary')
           ->sortable(),
 
         Tables\Columns\BadgeColumn::make('tipo')
-        ->searchable()
+          ->searchable()
           ->sortable()
           ->colors([
             'success' => 'VENTA',
@@ -260,18 +223,18 @@ class BillResource extends Resource
           ]),
 
         Tables\Columns\TextColumn::make('work.title')
-        ->searchable()
-        ->size('sm')
+          ->searchable()
+          ->size('sm')
           ->sortable(),
 
         Tables\Columns\TextColumn::make('cotization.codigo')
-        ->searchable()
+          ->searchable()
           ->placeholder('S/C')
           ->sortable()
           ->size('sm'),
 
         Tables\Columns\TextColumn::make('total_price')
-        ->searchable()
+          ->searchable()
           ->sortable()
           ->label('Valor')
           ->money('clp'),
@@ -285,19 +248,19 @@ class BillResource extends Resource
           ->money('clp')
           ->iconPosition('after')
           ->icon(function (Model $record) {
-            if ((int)$record->saldo == 0) {
+            if (((string)$record->tipo == 'VENTA') && ((int)$record->total_price == (int)Payment::where('manager_bill_id', '=', $record->id)->sum('abono'))) {
               return 'heroicon-o-badge-check';
             }
             return null;
           })
           ->color(function (Model $record) {
-            if ((int)$record->saldo == 0) {
+             if (((string)$record->tipo == 'VENTA') && ((int)$record->total_price == (int)Payment::where('manager_bill_id', '=', $record->id)->sum('abono'))) {
               return 'success';
             }
             return null;
           }),
 
-          Tables\Columns\TextColumn::make('user.name')
+        Tables\Columns\TextColumn::make('user.name')
           ->label('Creado por')
           ->searchable()
           ->toggleable(isToggledHiddenByDefault: true)
@@ -350,7 +313,16 @@ class BillResource extends Resource
       RelationManagers\PaymentsRelationManager::class,
     ];
   }
-
+  public static function getWidgets(): array
+  {
+    return [
+      BillStats::class,
+    ];
+  }
+  protected function getHeaderWidgetsColumns(): int | array
+  {
+    return 4;
+  }
   public static function getPages(): array
   {
     return [
