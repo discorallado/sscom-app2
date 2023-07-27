@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Manager\CotizationResource\RelationManagers;
 
+use App\Filament\Resources\Manager\BillResource;
+use App\Models\Manager\Bill;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -35,7 +37,27 @@ class BillsRelationManager extends RelationManager
   {
     return $table
       ->columns([
-        Tables\Columns\TextColumn::make('fecha'),
+        Tables\Columns\TextColumn::make('fecha')
+          ->searchable()
+          ->sortable()
+          ->date(),
+        Tables\Columns\BadgeColumn::make('doc')
+          ->searchable()
+          ->color('secondary')
+          ->sortable(),
+
+        Tables\Columns\BadgeColumn::make('tipo')
+          ->searchable()
+          ->sortable()
+          ->colors([
+            'success' => 'VENTA',
+            'warning' => 'COSTO',
+          ]),
+        Tables\Columns\TextColumn::make('total_price')
+          ->searchable()
+          ->sortable()
+          ->label('Valor')
+          ->money('clp'),
       ])
       ->filters([
         Tables\Filters\TrashedFilter::make()
@@ -44,16 +66,8 @@ class BillsRelationManager extends RelationManager
         Tables\Actions\CreateAction::make(),
       ])
       ->actions([
-        Tables\Actions\ViewAction::make(),
-        Tables\Actions\EditAction::make(),
-        Tables\Actions\DeleteAction::make(),
-        Tables\Actions\ForceDeleteAction::make(),
-        Tables\Actions\RestoreAction::make(),
-      ])
-      ->bulkActions([
-        Tables\Actions\DeleteBulkAction::make(),
-        Tables\Actions\RestoreBulkAction::make(),
-        Tables\Actions\ForceDeleteBulkAction::make(),
+        Tables\Actions\Action::make('open')
+          ->url(fn (Bill $record): string => BillResource::getUrl('view', ['record' => $record])),
       ]);
   }
 

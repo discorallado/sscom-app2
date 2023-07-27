@@ -149,7 +149,8 @@
 
       <div class="Cell" style="width: 50%; text-align: center !important;">
 
-        <div class="Table bordered sello" style="color: red !important; width: auto; margin: auto; border:5px double red !important;">
+        <div class="Table bordered sello"
+          style="color: red !important; width: auto; margin: auto; border:5px double red !important;">
           <div class="Row">
             <div class="Cell bordered" style="text-align: center; padding: 10px !important;">
               <p style="font-size: 22pt; line-height: 20px;">COTIZACION</p>
@@ -167,7 +168,7 @@
 
   <p class="parrafo">Por intermedio de la presente, y de acuerdo con lo conversado, me es grato hacer llegar a Usted la
     siguiente
-    cotizaci&oacute;n correspondiente a <strong>&ldquo;{{ $record->work->descripcion }}&rdquo;</strong></p>
+    cotizaci&oacute;n correspondiente a <strong>&ldquo;{{ strip_tags($record->descripcion) }}&rdquo;</strong></p>
   <!-- #################### -->
 
   <div class="Table bordered">
@@ -185,10 +186,11 @@
         <p>Total</p>
       </div>
     </div>
-@foreach ($record->items as $item)
+    @foreach ($record->items as $item)
     <div class="Row">
       <div class="Cell borderedcell">
         <p>{{ $item->product->nombre }}</p>
+        <p class="text-xs italic ml-3">{{ strip_tags($item->descripcion) }}</p>
       </div>
       <div class="Cell borderedcell">
         <p>{{ $item->cantidad }}</p>
@@ -200,7 +202,7 @@
         <p>{{ number_format($item->precio_anotado * $item->cantidad, 0, '', '.') }}</p>
       </div>
     </div>
-@endforeach
+    @endforeach
 
   </div>
 

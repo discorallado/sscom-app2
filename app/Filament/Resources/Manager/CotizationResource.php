@@ -85,7 +85,7 @@ class CotizationResource extends Resource
               ->hidden(fn (?Cotization $record) => $record === null)
               ->schema([
                 Forms\Components\Placeholder::make('created_at')
-                  ->label('Creado el')
+                  ->label('Creado')
                   ->content(fn (Cotization $record): ?string => $record->created_at?->diffForHumans() . ' (' . $record->created_at->format('H:i d-m-Y') . ')'),
                 Forms\Components\Placeholder::make('updated_at')
                   ->label('Última modificación')
@@ -105,23 +105,23 @@ class CotizationResource extends Resource
   {
     return $table
       ->columns([
-
-        Tables\Columns\TextColumn::make('codigo')
-          ->size('sm')
-          ->searchable()
-          ->sortable(),
-
         Tables\Columns\TextColumn::make('fecha')
           ->date()
           ->extraAttributes(function (?Model $record) {
             $fecha = Carbon::parse($record->fecha);
             $hoy = Carbon::parse(now());
             return $fecha->add((int)$record->validez, 'day') <= $hoy
-              ? ['class' => 'text-warning-600']
+              ? ['class' => 'text-danger-600']
               : ['class' => 'text-primary-600'];
           })
           ->searchable()
           ->sortable(),
+
+        Tables\Columns\TextColumn::make('codigo')
+          ->size('sm')
+          ->searchable()
+          ->sortable(),
+
 
         Tables\Columns\TextColumn::make('vencimiento')
           ->toggleable(isToggledHiddenByDefault: true)
@@ -140,7 +140,15 @@ class CotizationResource extends Resource
           ->searchable()
           ->sortable(),
 
+        Tables\Columns\BadgeColumn::make('bill.doc')
+          ->label('Factura')
+          ->placeholder('S/F')
+          ->color('warning')
+          ->searchable()
+          ->sortable(),
+
         Tables\Columns\TextColumn::make('work.customer.name')
+          ->toggleable(isToggledHiddenByDefault: true)
           ->words(2)
           ->searchable()
           ->sortable(),
@@ -182,6 +190,7 @@ class CotizationResource extends Resource
           ->placeholder('Nunca')
           ->sortable(),
       ])
+
       ->defaultSort('created_at', 'desc')
 
       ->filters([

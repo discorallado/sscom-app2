@@ -57,57 +57,83 @@ class BillResource extends Resource
   {
     return $form
       ->schema([
-        Forms\Components\Section::make('Detalles')
-          ->columns(3)
-          ->icon('heroicon-o-identification')
+        Forms\Components\Group::make()
+          ->columns(4)
+          ->columnSpan('full')
           ->schema([
 
-            Forms\Components\DateTimePicker::make('fecha')
-              ->label('Fecha emisión:')
-              ->withoutSeconds()
-              ->required()
-              ->timezone('America/Santiago')
-              ->default(\now()),
+            Forms\Components\Section::make('Detalles')
+              ->columns(5)
+              ->columnSpan(3)
+              ->icon('heroicon-o-identification')
+              ->schema([
 
-            Forms\Components\TextInput::make('doc')
-              ->label('Numero de documento')
-              ->hint('ej: FAC4321')
-              ->mask(fn (TextInput\Mask $mask) => $mask->pattern('{FAC}0000`[000000000000]'))
-              ->autofocus()
-              ->unique(ignorable: fn ($record) => $record)
-              ->required()
-              ->prefixIcon('heroicon-o-hashtag')
-              ->maxLength(191),
+                Forms\Components\DateTimePicker::make('fecha')
+                  ->label('Fecha emisión:')
+                  ->withoutSeconds()
+                  ->required()
+                  ->timezone('America/Santiago')
+                  ->default(\now())
+                  ->columnSpan(2),
 
-            Forms\Components\Select::make('manager_work_id')
-              ->label('Trabajo')
-              ->reactive()
-              ->options(Work::all()->pluck('title', 'id')->toArray())
-              ->afterStateUpdated(function (callable $set, callable $get) {
-                $set('manager_cotization_id', null);
-                $set('total_price', '0');
-              })
-              ->required()
-              ->columnSpan(2),
+                Forms\Components\TextInput::make('doc')
+                  ->label('Numero de documento')
+                  ->hint('ej: FAC4321')
+                  ->mask(fn (TextInput\Mask $mask) => $mask->pattern('{FAC}0000`[000000000000]'))
+                  ->autofocus()
+                  ->unique(ignorable: fn ($record) => $record)
+                  ->required()
+                  ->prefixIcon('heroicon-o-hashtag')
+                  ->maxLength(191)
+                  ->columnSpan(3),
 
-            Forms\Components\Select::make('manager_cotization_id')
-              ->label('Cotizacion')
-              ->reactive()
-              ->options(function (callable $get) {
-                $work = Work::find($get('manager_work_id'));
-                if (!$work) {
-                  return Cotization::all()->pluck('codigo', 'id');
-                } else {
-                  return $work->cotization->pluck('codigo', 'id')->toArray();
-                }
-              })
-              ->afterStateUpdated(function (Closure $get, Closure $set, $state) {
-                if ((string)$get('tipo') == 'VENTA') {
-                  $total_price =  (string)Cotization::find((int)$get('manager_cotization_id'))->total_price;
-                  $set('total_price', $total_price);
-                }
-              })
-              ->columnSpan(1),
+                Forms\Components\Select::make('manager_work_id')
+                  ->label('Trabajo')
+                  ->reactive()
+                  ->options(Work::all()->pluck('title', 'id')->toArray())
+                  ->afterStateUpdated(function (callable $set, callable $get) {
+                    $set('manager_cotization_id', null);
+                    $set('total_price', '0');
+                  })
+                  ->required()
+                  ->columnSpan(3),
+
+                Forms\Components\Select::make('manager_cotization_id')
+                  ->label('Cotizacion')
+                  ->reactive()
+                  ->options(function (callable $get) {
+                    $work = Work::find($get('manager_work_id'));
+                    if (!$work) {
+                      return Cotization::all()->pluck('codigo', 'id');
+                    } else {
+                      return $work->cotization->pluck('codigo', 'id')->toArray();
+                    }
+                  })
+                  ->afterStateUpdated(function (Closure $get, Closure $set, $state) {
+                    if ((string)$get('tipo') == 'VENTA') {
+                      $total_price =  (string)Cotization::find((int)$get('manager_cotization_id'))->total_price;
+
+
+
+                      $set('total_price', $total_price);
+                    }
+                  })
+                  ->columnSpan(2),
+              ]),
+
+            Forms\Components\Card::make()
+              ->columns(1)
+              ->columnSpan(1)
+              ->hidden(fn (?Bill $record) => $record === null)
+              ->schema([
+                Forms\Components\Placeholder::make('created_at')
+                  ->label('Creado')
+                  ->content(fn (Bill $record): ?string => $record->created_at?->diffForHumans() . ' (' . $record->created_at->format('H:i d-m-Y') . ')'),
+                Forms\Components\Placeholder::make('updated_at')
+                  ->label('Última modificación')
+                  ->content(fn (Bill $record): ?string => $record->updated_at?->diffForHumans() . ' (' . $record->updated_at->format('H:i d-m-Y') . ')'),
+              ]),
+
 
           ]),
 
@@ -131,11 +157,27 @@ class BillResource extends Resource
                 $set('customer',  Work::find((int)$get('manager_work_id'))?->manager_customer_id);
               }
               if ($get('manager_cotization_id')) {
-                $total_price =  (string)Cotization::find((int)$get('manager_cotization_id'))->total_price;
+                $cotizacion =  Cotization::find((int)$get('manager_cotization_id'));
+                $total_price =  (string)$cotizacion->total_price;
                 $set('total_price', $total_price);
+
+                $items = $cotizacion->items;
+                // dd($items);
+                $resultado = $cotizacion->codigo . ':------------------------------------- <br />';
+                foreach ($items as $item) {
+                  //   $resultado .= $item->cantidad . '<br />';
+                  $total = (int)$item->precio_anotado * (int)$item->cantidad;
+                  $resultado .= $item->cantidad . ' x ' . $item->Product->nombre . ' : $' . \number_format($item->precio_anotado, 0, 0, '.') . '<br />';
+                }
+                $resultado .= '------------------------------------------------------<br />';
+                $resultado .= 'Neto: $' . number_format((int)$cotizacion->total_price - (int)$cotizacion->iva_price, 0, 0, '.');
+                $resultado .= '<br />IVA: $' . number_format((int)$cotizacion->iva_price, 0, 0, '.');
+                $resultado .= '<br />Total: $' . number_format((int)$cotizacion->total_price, 0, 0, '.');
+                $set('descripcion', $resultado);
               }
             } elseif ((string)$state == 'COSTO') {
               $set('customer', null);
+              $set('descripcion', null);
               $set('total_price', '0');
             }
           }),
@@ -225,6 +267,7 @@ class BillResource extends Resource
           ]),
 
         Tables\Columns\TextColumn::make('work.title')
+          ->label('Proyecto')
           ->searchable()
           ->size('sm')
           ->sortable(),

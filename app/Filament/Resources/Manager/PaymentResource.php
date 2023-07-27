@@ -276,24 +276,11 @@ class PaymentResource extends Resource
         ]),
         Panel::make([
           Stack::make([
-            Tables\Columns\TextColumn::make('bill.cotization.items')
+            Tables\Columns\TextColumn::make('bill.descripcion')
               ->placeholder('FACTURA: Sin detalles')
-              ->getStateUsing(function (Model $record) {
-
-                if ($record->Cotization) {
-                  $items = $record->Cotization->items;
-                  // dd($items);
-                  $resultado = 'FACTURA: <br />';
-                  foreach ($items as $item) {
-                    //   $resultado .= $item->cantidad . '<br />';
-                    $total = (int)$item->precio_anotado * (int)$item->cantidad;
-                    $resultado .= $item->cantidad . ' x ' . $item->Product->nombre . ' : $' . \number_format($item->precio_anotado, 0, 0, '.');
-                  }
-                  return $resultado;
-                }
-              })
               ->html(),
             TextColumn::make('descripcion')
+              ->html()
               ->placeholder('DESC: Sin detalles'),
             // TextColumn::make('phone'),
           ]),
