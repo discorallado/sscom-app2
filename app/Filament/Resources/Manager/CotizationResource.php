@@ -11,11 +11,13 @@ use App\Models\Manager\Work;
 use App\Filament\Resources\Manager\CotizationResource\Pages;
 use App\Filament\Resources\Manager\CotizationResource\RelationManagers;
 use App\Filament\Resources\Manager\CotizationResource\Widgets\CotizationStats;
+use App\Models\Manager\Bill;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 
 
@@ -25,15 +27,19 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\HtmlString;
+use League\CommonMark\Extension\CommonMark\Node\Inline\HtmlInline;
 use phpDocumentor\Reflection\Types\Integer as TypesInteger;
 use Ramsey\Uuid\Type\Integer;
 use Squire\Models\Currency;
+use KoalaFacade\FilamentAlertBox\Forms\Components\AlertBox;
 
 class CotizationResource extends Resource
 {
@@ -58,30 +64,39 @@ class CotizationResource extends Resource
   {
     return $form
       ->schema([
+        AlertBox::make()
+          ->label(label: 'Cuidado!')
+          ->helperText(text: 'Esta cotización tiene factura/s asociadas, cualquier cambio en esta cotización se verá reflejado en la factura.')
+          ->warning()
+          ->columnSpan('full')
+          ->hidden(fn (Cotization $record) => Bill::where('manager_cotization_id', '=', $record->id)->count() > 0 ? false : true),
+
         Forms\Components\Group::make()
+          ->columns(4)
           ->schema([
             Forms\Components\Card::make()
               ->schema(static::getFormSchema())
+              ->columnSpan(3)
               ->columns(1),
-            Forms\Components\Section::make('Items')
-              ->schema(static::getFormSchema('repetidor')),
+
+            Forms\Components\Card::make()
+              ->columns(1)
+              ->columnSpan(1)
+              ->hidden(fn (?Cotization $record) => $record === null)
+              ->schema([
+                Forms\Components\Placeholder::make('created_at')
+                  ->label('Creado el')
+                  ->content(fn (Cotization $record): ?string => $record->created_at?->diffForHumans() . ' (' . $record->created_at->format('H:i d-m-Y') . ')'),
+                Forms\Components\Placeholder::make('updated_at')
+                  ->label('Última modificación')
+                  ->content(fn (Cotization $record): ?string => $record->updated_at?->diffForHumans() . ' (' . $record->updated_at->format('H:i d-m-Y') . ')'),
+              ]),
           ])
           ->columnSpan(4),
 
-        Forms\Components\Card::make()
-          ->columns(4)
-          ->columnSpan(4)
-          ->hidden(fn (?Cotization $record) => $record === null)
-          ->schema([
-            Forms\Components\Placeholder::make('created_at')
-              ->label('Creado el')
-              ->content(fn (Cotization $record): ?string => $record->created_at?->diffForHumans() . ' (' . $record->created_at->format('H:i d-m-Y') . ')')
-              ->columnSpan(['lg' => 2]),
-            Forms\Components\Placeholder::make('updated_at')
-              ->label('Última modificación')
-              ->content(fn (Cotization $record): ?string => $record->updated_at?->diffForHumans() . ' (' . $record->updated_at->format('H:i d-m-Y') . ')')
-              ->columnSpan(['lg' => 2]),
-          ]),
+        Forms\Components\Section::make('Items')
+          ->schema(static::getFormSchema('repetidor')),
+
       ])
       ->columns(4);
   }
@@ -204,22 +219,23 @@ class CotizationResource extends Resource
       ])
       ->actions([
         Tables\Actions\ActionGroup::make([
-        Tables\Actions\Action::make('pdf')
-          ->label('Descargar PDF')
-          ->color('success')
-          ->icon('heroicon-s-download')
-          ->action(function (Model $record) {
-            return response()->streamDownload(function () use ($record) {
-              echo Pdf::loadHtml(
-                Blade::render('pdf', ['record' => $record])
-              )->stream();
-            }, $record->codigo . '_' . $record->Work->Customer->name . '_' . $record->Work->name . '.pdf');
-          })
-          ->openUrlInNewTab(),
-        // Tables\Actions\ViewAction::make(),
-        Tables\Actions\EditAction::make(),
-        Tables\Actions\DeleteAction::make(),
-
+          Tables\Actions\Action::make('pdf')
+            ->label('Descargar PDF')
+            ->color('success')
+            ->icon('heroicon-s-download')
+            ->action(function (Model $record) {
+              return response()->streamDownload(function () use ($record) {
+                echo Pdf::loadHtml(
+                  Blade::render('pdf', ['record' => $record])
+                )->stream();
+              }, $record->codigo . '_' . $record->Work->Customer->name . '_' . $record->Work->name . '.pdf');
+            })
+            ->openUrlInNewTab(),
+          // Tables\Actions\ViewAction::make(),
+          Tables\Actions\EditAction::make(),
+          Tables\Actions\DeleteAction::make(),
+          Tables\Actions\ForceDeleteAction::make(),
+          Tables\Actions\RestoreAction::make(),
         ])
       ])
       ->bulkActions([
@@ -232,7 +248,8 @@ class CotizationResource extends Resource
   public static function getRelations(): array
   {
     return [
-      //   RelationManagers\PaymentsRelationManager::class,
+      RelationManagers\BillsRelationManager::class,
+
     ];
   }
 
@@ -275,10 +292,10 @@ class CotizationResource extends Resource
     return parent::getGlobalSearchEloquentQuery()->with(['customer', 'items']);
   }
 
-    protected static function getNavigationBadge(): ?string
-    {
-      return static::getModel()::where('vencimiento', '>=', now())->count();
-    }
+  protected static function getNavigationBadge(): ?string
+  {
+    return static::getModel()::where('vencimiento', '>=', now())->count();
+  }
 
   public static function getFormSchema(?string $section = null): array
   {
@@ -369,6 +386,7 @@ class CotizationResource extends Resource
                   //   ->mask(fn (TextInput\Mask $mask) => $mask->money(prefix: '$', thousandsSeparator: '.', decimalPlaces: 0))
                   ->columnSpan(2),
 
+
                 Forms\Components\TextInput::make('cantidad')
                   ->numeric()
                   ->default(1)
@@ -391,6 +409,25 @@ class CotizationResource extends Resource
                 Forms\Components\Placeholder::make('total')
                   ->content(fn (Closure $get) => '$ ' . \number_format(((int)$get('precio_anotado') * (int)$get('cantidad')), 0, ',', '.'))
                   ->columnSpan(2),
+
+                Section::make('Descripcion')
+                  ->schema([
+                    Forms\Components\RichEditor::make('descripcion')
+                      ->disableAllToolbarButtons()
+                      ->toolbarButtons([
+                        'bold',
+                        'bulletList',
+                        'italic',
+                        'link',
+                        'orderedList',
+                        'redo',
+                        'strike',
+                        'undo',
+                      ]),
+                  ])
+                  ->heading(fn () => new HtmlString('<span class="text-sm">Descripcion:</span>'))
+                  ->collapsible()
+                  ->collapsed(),
               ])
           ])
           ->itemLabel(function (array $state) {
@@ -441,8 +478,8 @@ class CotizationResource extends Resource
                 return 'Total: $ ' . number_format(strval($total), 0, '', '.');
               }),
 
-            Forms\Components\Hidden::make('iva_price'),
-            Forms\Components\Hidden::make('total_price'),
+            Forms\Components\TextInput::make('iva_price'),
+            Forms\Components\TextInput::make('total_price'),
           ])
           ->columns(3),
 
@@ -468,7 +505,7 @@ class CotizationResource extends Resource
             ->reactive()
             ->columnSpan('full'),
           Forms\Components\DatePicker::make('inicio'),
-        //   Forms\Components\TextInput::make('descripcion'),
+          //   Forms\Components\TextInput::make('descripcion'),
 
         ])
         ->createOptionAction(function (Forms\Components\Actions\Action $action) {
@@ -493,7 +530,6 @@ class CotizationResource extends Resource
           ->default('COT' . date("dmy") . str_pad(DB::table('manager_cotizations')->latest('id')->first()?->id ?? 0, 3, '0', STR_PAD_LEFT))
           ->disabled()
           ->required(),
-
       ]),
 
 
@@ -503,7 +539,7 @@ class CotizationResource extends Resource
           ->displayFormat('d M, Y')
           ->timezone('America/Santiago')
           ->reactive()
-          ->afterStateUpdated(function(Closure $get, Closure $set, $state){
+          ->afterStateUpdated(function (Closure $get, Closure $set, $state) {
             $fecha = Carbon::parse($state);
             $validez = $get('validez');
             $vencimiento = $fecha->addDays((int)$validez);
@@ -516,7 +552,7 @@ class CotizationResource extends Resource
           ->postfix('días')
           ->required()
           ->reactive()
-          ->afterStateUpdated(function(Closure $get, Closure $set, $state){
+          ->afterStateUpdated(function (Closure $get, Closure $set, $state) {
             $fecha = Carbon::parse($get('fecha'));
             $validez = $state;
             $vencimiento = $fecha->addDays((int)$validez);
@@ -524,16 +560,15 @@ class CotizationResource extends Resource
           }),
 
         Forms\Components\DatePicker::make('vencimiento')
-        ->visibleOn('edit')
-        ->reactive()
-        ->disabled()
+          ->visibleOn('edit')
+          ->reactive()
+          ->disabled()
           ->timezone('America/Santiago'),
 
       ]),
 
       Forms\Components\RichEditor::make('descripcion')
-        ->columnSpan('full')
-        ->maxLength(65535),
+        ->columnSpan('full'),
     ];
   }
 }

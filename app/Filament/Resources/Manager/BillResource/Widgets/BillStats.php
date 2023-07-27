@@ -22,6 +22,14 @@ class BillStats extends BaseWidget
     //     ->dateColumn('fecha')
     //     ->perDay()
     //     ->count();
+      $count_venta_mes = (int)Bill::where('tipo', '=', 'VENTA')->where('fecha', '>=', now()->subMonth())->count();
+      $count_compra_mes = (int)Bill::where('tipo', '=', 'COSTO')->where('fecha', '>=', now()->subMonth())->count();
+
+      $venta_mes = (int)Bill::where('tipo', '=', 'VENTA')->where('fecha', '>=', \now()->subMonth())->sum('total_price');
+      $compra_mes = (int)Bill::where('tipo', '=', 'COSTO')->where('fecha', '>=', \now()->subMonth())->sum('total_price');
+
+      $pagos_mes = (int)Payment::where('manager_bill_id', '!=', null)->sum('abono');
+      $deuda_mes = (int)Bill::where('tipo', '=', 'VENTA')->sum('total_price') - (int)Payment::where('manager_bill_id', '!=', null)->sum('abono');
 
     return [
       // Card::make('Cotizaciones el último mes', Bill::where('fecha', '>=', now()->subMonth())->count())
@@ -31,36 +39,24 @@ class BillStats extends BaseWidget
       //             ->map(fn (TrendValue $value) => $value->aggregate)
       //             ->toArray()
       //     ),
-
         Card::make(
-          'Facturas de Venta este mes',
-          Bill::where('tipo', '=', 'VENTA')
-            ->where('fecha', '>=', \now()->subMonth())->count() . '/' . Bill::all()->count()
+          'Ventas mes'. ' (' . $count_venta_mes . ' facturas)',
+          '$' . number_format($venta_mes, 0, 0, '.')
         ),
 
         Card::make(
-          'Facturas de Compra',
-          Bill::where('tipo', '=', 'COSTO')->count() . '/' . Bill::all()->count()
+          'Compras mes'. ' (' . $count_compra_mes . ' facturas)',
+          '$' . number_format($compra_mes, 0, 0, '.')
         ),
 
         Card::make(
-          'Total facturas compra',
-          '$' . number_format(Bill::where('tipo', '=', 'COSTO')->sum('total_price'), 0, 0, '.')
+          'Total pagado mes',
+         '$' . number_format($pagos_mes, 0, 0, '.')
         ),
 
         Card::make(
-          'Total facturas venta',
-          '$' . number_format(Bill::where('tipo', '=', 'VENTA')->sum('total_price'), 0, 0, '.')
-        ),
-
-        Card::make(
-          'Total pagos',
-         '$' . number_format((int)Payment::where('manager_bill_id', '!=', null)->sum('abono'), 0, 0, '.')
-        ),
-
-        Card::make(
-          'Total adeudado',
-         '$' . number_format( Bill::where('tipo', '=', 'VENTA')->sum('total_price') - Payment::where('manager_bill_id', '!=', null)->sum('abono'), 0, 0, '.')
+          'Total adeudado mes',
+         '$' . number_format($deuda_mes, 0, 0, '.')
         ),
 
         // Card::make('Valor promedio', '$ '.number_format(Bill::avg('total_price'), 0,0,'.')),

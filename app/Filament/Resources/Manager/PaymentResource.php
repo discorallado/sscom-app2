@@ -56,8 +56,6 @@ class PaymentResource extends Resource
   {
     return $form
       ->schema([
-
-
         Section::make('Datos')
           ->columns(3)
           ->icon('heroicon-o-identification')
@@ -74,7 +72,6 @@ class PaymentResource extends Resource
             Card::make()
               ->columns(3)
               ->schema([
-
 
                 Forms\Components\Select::make('manager_work_id')
                   ->label('Trabajo:')
@@ -197,54 +194,56 @@ class PaymentResource extends Resource
     return $table
       ->columns([
         Split::make([
-
           Grid::make(7)
             ->schema([
-              Tables\Columns\BadgeColumn::make('fecha')
-                ->color('success')
-                ->sortable()
-                ->searchable()
-                ->date(),
+              Stack::make([
+                Tables\Columns\BadgeColumn::make('fecha')
+                  ->color('primary')
+                  ->sortable()
+                  ->searchable()
+                  ->date(),
+                Tables\Columns\BadgeColumn::make('bill.doc')
+                  ->weight('bold')
+                  ->sortable()
+                  ->searchable()
+                  ->color('warning')
+                  ->icon('heroicon-o-document-text'),
+
+
+              ]),
               Stack::make([
                 Tables\Columns\TextColumn::make('work.customer.name')
                   ->sortable()
                   ->searchable()
                   ->icon('heroicon-s-user-group')
-                  ->size('sm'),
+                  ->size('md'),
                 Tables\Columns\TextColumn::make('work.title')
                   ->sortable()
                   ->searchable()
-                  ->icon('heroicon-o-briefcase'),
-                // Tables\Columns\TextColumn::make('bill.work.cotization.codigo'),
-              ])
-                ->columnSpan(2),
-
-              Stack::make([
-                //   Tables\Columns\TextColumn::make('tipo')
-                Tables\Columns\BadgeColumn::make('bill.doc')
+                  ->icon('heroicon-o-briefcase')
+                  ->size('sm'),
+                Tables\Columns\BadgeColumn::make('cotization.codigo')
                   ->weight('bold')
                   ->sortable()
                   ->searchable()
-                  //   ->color(function (Model $record) {
-                  //     if ($record->Bill->tipo == "VENTA") {
-                  //       return "success";
-                  //     }
-                  //     return "warning";
-                  //   })
-                  ->icon('heroicon-o-document-text'),
-
+                  ->color('secodary')
+                  ->icon('heroicon-o-document-text')
+                  ->size('sm'),
+                // Tables\Columns\TextColumn::make('bill.work.cotization.codigo'),
               ])
-                ->columnSpan(1),
+                ->columnSpan(3),
 
               Tables\Columns\TextColumn::make('total_price')
                 ->description('Deuda')
                 ->searchable()
+                ->extraAttributes(['class' => 'text-warning-700 dark:text-warning-500'])
                 ->columnSpan(1)
                 ->money('clp'),
 
               Tables\Columns\TextColumn::make('abono')
                 ->description('Abono')
                 ->searchable()
+                ->extraAttributes(['class' => 'text-success-700 dark:text-success-500'])
                 ->columnSpan(1)
                 ->money('clp'),
 
@@ -254,20 +253,20 @@ class PaymentResource extends Resource
                 ->columnSpan(1)
                 ->iconPosition('after')
                 ->icon(function (Model $record) {
-                  if((int)$record->saldo == 0){
-                  return 'heroicon-o-badge-check';
+                  if ((int)$record->saldo == 0) {
+                    return 'heroicon-o-badge-check';
                   }
                   return null;
                 })
-                ->color(function (Model $record) {
-                  if((int)$record->saldo == 0){
-                  return 'success';
+                ->extraAttributes(function (Model $record) {
+                  if ((int)$record->saldo == 0) {
+                    return ['class' => 'text-success-600 dark:text-success-600'];
                   }
-                  return null;
+                  return [];
                 })
                 ->weight(function (Model $record) {
-                  if((int)$record->saldo == 0){
-                  return 'bold';
+                  if ((int)$record->saldo == 0) {
+                    return 'bold';
                   }
                   return null;
                 })
@@ -275,6 +274,30 @@ class PaymentResource extends Resource
                 ->money('clp'),
             ]),
         ]),
+        Panel::make([
+          Stack::make([
+            Tables\Columns\TextColumn::make('bill.cotization.items')
+              ->placeholder('FACTURA: Sin detalles')
+              ->getStateUsing(function (Model $record) {
+
+                if ($record->Cotization) {
+                  $items = $record->Cotization->items;
+                  // dd($items);
+                  $resultado = 'FACTURA: <br />';
+                  foreach ($items as $item) {
+                    //   $resultado .= $item->cantidad . '<br />';
+                    $total = (int)$item->precio_anotado * (int)$item->cantidad;
+                    $resultado .= $item->cantidad . ' x ' . $item->Product->nombre . ' : $' . \number_format($item->precio_anotado, 0, 0, '.');
+                  }
+                  return $resultado;
+                }
+              })
+              ->html(),
+            TextColumn::make('descripcion')
+              ->placeholder('DESC: Sin detalles'),
+            // TextColumn::make('phone'),
+          ]),
+        ])->collapsible(),
 
         // Tables\Columns\TextColumn::make('fecha')
         //   ->date(),

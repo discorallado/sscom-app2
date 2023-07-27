@@ -41,6 +41,8 @@ class BillResource extends Resource
 
   protected static ?string $slug = 'manager/bills';
 
+  protected static ?string $title = 'Custom Page Title';
+
   protected static ?string $modelLabel = 'Factura';
 
   protected static ?string $pluralModelLabel = 'Facturas';
@@ -181,21 +183,21 @@ class BillResource extends Resource
 
           ])->columns(3),
 
-        // Section::make('Descripcion')
-        //   ->description('Observaciones y detalles')
-        //   ->icon('heroicon-o-identification')
-        //   ->schema([
+        Section::make('Descripcion')
+          ->description('Observaciones y detalles')
+          ->icon('heroicon-o-identification')
+          ->schema([
 
-        //     RichEditor::make('descripcion'),
+            RichEditor::make('descripcion'),
 
-        //     SpatieMediaLibraryFileUpload::make('file')
-        //       ->label('Archivo djunto')
-        //       ->preserveFilenames()
-        //       ->enableOpen()
-        //       ->enableDownload()
-        //       ->columnSpan('full'),
-        //   ])
-        //   ->columns(1),
+            SpatieMediaLibraryFileUpload::make('file')
+              ->label('Archivo djunto')
+              ->preserveFilenames()
+              ->enableOpen()
+              ->enableDownload()
+              ->columnSpan('full'),
+          ])
+          ->columns(1),
 
       ])
       ->columns(3);
@@ -211,7 +213,7 @@ class BillResource extends Resource
           ->date(),
         Tables\Columns\BadgeColumn::make('doc')
           ->searchable()
-          ->color('primary')
+          ->color('secondary')
           ->sortable(),
 
         Tables\Columns\BadgeColumn::make('tipo')
@@ -254,7 +256,7 @@ class BillResource extends Resource
             return null;
           })
           ->color(function (Model $record) {
-             if (((string)$record->tipo == 'VENTA') && ((int)$record->total_price == (int)Payment::where('manager_bill_id', '=', $record->id)->sum('abono'))) {
+            if (((string)$record->tipo == 'VENTA') && ((int)$record->total_price == (int)Payment::where('manager_bill_id', '=', $record->id)->sum('abono'))) {
               return 'success';
             }
             return null;
@@ -287,6 +289,7 @@ class BillResource extends Resource
 
       ])
       ->defaultSort('created_at', 'desc')
+      //   ->defaultSort( 'tipo', 'desc')
       ->filters([
         Tables\Filters\TrashedFilter::make(),
       ])

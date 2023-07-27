@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'd2bc7233eb0488363a05518eb4df5d511d032c8f',
+        'reference' => 'ad072b8cf7032e658d66937293c926901ce5b889',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -634,6 +634,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'koalafacade/filament-alertbox' => array(
+            'pretty_version' => 'v0.2.4',
+            'version' => '0.2.4.0',
+            'reference' => '91bc82beb945ce316c25e93c8a18ddfcc85b9ba8',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../koalafacade/filament-alertbox',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'koalafacade/filament-navigation-holder' => array(
             'pretty_version' => 'v0.0.0',
             'version' => '0.0.0.0',
@@ -661,7 +670,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'd2bc7233eb0488363a05518eb4df5d511d032c8f',
+            'reference' => 'ad072b8cf7032e658d66937293c926901ce5b889',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
