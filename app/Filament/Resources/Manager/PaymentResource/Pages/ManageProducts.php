@@ -16,6 +16,7 @@ class ManagePayments extends ManageRecords
   {
     return [
       Actions\CreateAction::make()
+        ->slideOver()
         ->mutateFormDataUsing(function (array $data): array {
           $data['user_id'] = auth()->id();
 
@@ -23,14 +24,14 @@ class ManagePayments extends ManageRecords
         }),
     ];
   }
-//   protected function getTableRecordClassesUsing(): ?Closure
-//   {
-//     return fn (Model $record) => match ($record->Bill->tipo) {
-//       'VENTA' => 'bg-success-400',
-//       'COSTO' => [
-//         'text-danger-600',
-//         // 'dark:border-orange-300' => config('tables.dark_mode'),
-//       ],
-//     };
-//   }
+  //   protected function getTableRecordClassesUsing(): ?Closure
+  //   {
+  //     return fn (Model $record) => match ($record->Bill->tipo) {
+  //       'VENTA' => 'bg-success-400',
+  //       'COSTO' => [
+  //         'text-danger-600',
+  //         // 'dark:border-orange-300' => config('tables.dark_mode'),
+  //       ],
+  //     };
+  //   }
 }

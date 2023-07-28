@@ -21,7 +21,8 @@ class ListPayments extends ListRecords
   protected function getActions(): array
   {
     return [
-      Actions\CreateAction::make(),
+      Actions\CreateAction::make()
+        ->slideOver(),
     ];
   }
 
@@ -40,6 +41,14 @@ class ListPayments extends ListRecords
   {
     return PaymentResource::getEloquentQuery();
   }
-
-
+  //   protected function getTableQuery(): Builder
+  //   {
+  //     return Payment::select(
+  //       DB::raw('MIN(id) as id'),
+  //       DB::raw('DATE(created_at) as date'),
+  //       DB::raw('count(*) as total')
+  //     )
+  //       ->orderBy('fecha', 'DESC')
+  //       ->groupBy('manager_bill_id');
+  //   }
 }

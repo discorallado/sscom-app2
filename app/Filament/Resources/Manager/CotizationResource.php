@@ -75,9 +75,11 @@ class CotizationResource extends Resource
           ->columns(4)
           ->schema([
             Forms\Components\Card::make()
-              ->schema(static::getFormSchema())
               ->columnSpan(3)
-              ->columns(1),
+              ->columns(1)
+              ->schema(
+                static::getFormSchema()
+              ),
 
             Forms\Components\Card::make()
               ->columns(1)
