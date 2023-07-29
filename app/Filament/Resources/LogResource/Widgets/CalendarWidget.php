@@ -8,7 +8,7 @@ use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 
 class CalendarWidget extends Widget
 {
-  //   protected static string $view = 'filament.resources.log-resource.widgets.calendar-widget';
+  protected static string $view = 'filament.resources.log-resource.widgets.calendar-widget';
 
   public function getViewData(): array
   {

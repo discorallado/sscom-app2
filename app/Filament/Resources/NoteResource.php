@@ -24,14 +24,14 @@ class NoteResource extends Resource
 
   protected static ?string $pluralModelLabel = 'Anotaciones';
 
-  protected static ?int $navigationSort = 0;
+  protected static ?int $navigationSort = 3;
 
 
   protected static ?string $recordTitleAttribute = 'titulo';
 
   //   protected static ?string $navigationGroup = 'Manager';
 
-  protected static ?string $navigationIcon = 'heroicon-o-collection';
+  protected static ?string $navigationIcon = 'heroicon-o-pencil-alt';
 
   public static function form(Form $form): Form
   {

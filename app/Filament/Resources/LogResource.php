@@ -18,7 +18,19 @@ class LogResource extends Resource
 {
   protected static ?string $model = Log::class;
 
-  protected static ?string $navigationIcon = 'heroicon-o-collection';
+  protected static ?string $slug = 'logs';
+
+  protected static ?string $modelLabel = 'Bitacora';
+
+  protected static ?string $pluralModelLabel = 'Bitacora';
+
+  protected static ?int $navigationSort = 2;
+
+  protected static ?string $recordTitleAttribute = 'titulo';
+
+  //   protected static ?string $navigationGroup = 'Manager';
+
+  protected static ?string $navigationIcon = 'heroicon-o-calendar';
 
   public static function form(Form $form): Form
   {
