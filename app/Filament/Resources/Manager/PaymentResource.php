@@ -255,108 +255,108 @@ class PaymentResource extends Resource
   {
     return $table
       ->columns([
-        // Split::make([
-        //   Grid::make(12)
-        //     ->schema([
-        //       Stack::make([
-        //         Tables\Columns\BadgeColumn::make('fecha')
-        //           ->color('primary')
-        //           ->sortable()
-        //           ->searchable()
-        //           ->date(),
-        //         Tables\Columns\BadgeColumn::make('bill.doc')
-        //           ->weight('bold')
-        //           ->sortable()
-        //           ->searchable()
-        //           ->color('warning')
-        //           ->icon('heroicon-o-document-text'),
+        Split::make([
+          Grid::make(12)
+            ->schema([
+              Stack::make([
+                Tables\Columns\BadgeColumn::make('fecha')
+                  ->color('primary')
+                  ->sortable()
+                  ->searchable()
+                  ->date(),
+                Tables\Columns\BadgeColumn::make('bill.doc')
+                  ->weight('bold')
+                  ->sortable()
+                  ->searchable()
+                  ->color('warning')
+                  ->icon('heroicon-o-document-text'),
 
-        //       ])
-        //         ->columnSpan(2),
+              ])
+                ->columnSpan(2),
 
-        //       Stack::make([
-        //         Tables\Columns\TextColumn::make('work.customer.name')
-        //           ->sortable()
-        //           ->searchable()
-        //           ->icon('heroicon-s-user-group')
-        //           ->size('md'),
-        //         Tables\Columns\TextColumn::make('work.title')
-        //           ->sortable()
-        //           ->searchable()
-        //           ->icon('heroicon-o-briefcase')
-        //           ->size('sm'),
-        //         Tables\Columns\BadgeColumn::make('cotization.codigo')
-        //           ->weight('bold')
-        //           ->sortable()
-        //           ->searchable()
-        //           ->color('secodary')
-        //           ->icon('heroicon-o-document-text')
-        //           ->size('sm'),
-        //         // Tables\Columns\TextColumn::make('bill.work.cotization.codigo'),
-        //       ])
-        //         ->columnSpan(4),
+              Stack::make([
+                Tables\Columns\TextColumn::make('work.customer.name')
+                  ->sortable()
+                  ->searchable()
+                  ->icon('heroicon-s-user-group')
+                  ->size('md'),
+                Tables\Columns\TextColumn::make('work.title')
+                  ->sortable()
+                  ->searchable()
+                  ->icon('heroicon-o-briefcase')
+                  ->size('sm'),
+                Tables\Columns\BadgeColumn::make('cotization.codigo')
+                  ->weight('bold')
+                  ->sortable()
+                  ->searchable()
+                  ->color('secodary')
+                  ->icon('heroicon-o-document-text')
+                  ->size('sm'),
+                // Tables\Columns\TextColumn::make('bill.work.cotization.codigo'),
+              ])
+                ->columnSpan(4),
 
-        //       Tables\Columns\TextColumn::make('total_price')
-        //         ->description('Deuda')
-        //         ->searchable()
-        //         ->extraAttributes(['class' => 'text-warning-700 dark:text-warning-500'])
-        //         ->columnSpan(2)
-        //         ->money('clp'),
+              Tables\Columns\TextColumn::make('total_price')
+                ->description('Deuda')
+                ->searchable()
+                ->extraAttributes(['class' => 'text-warning-700 dark:text-warning-500'])
+                ->columnSpan(2)
+                ->money('clp'),
 
-        //       Tables\Columns\TextColumn::make('abono')
-        //         ->description('Abono')
-        //         ->searchable()
-        //         ->extraAttributes(['class' => 'text-success-700 dark:text-success-500'])
-        //         ->columnSpan(2)
-        //         ->money('clp'),
+              Tables\Columns\TextColumn::make('abono')
+                ->description('Abono')
+                ->searchable()
+                ->extraAttributes(['class' => 'text-success-700 dark:text-success-500'])
+                ->columnSpan(2)
+                ->money('clp'),
 
-        //       Tables\Columns\TextColumn::make('saldo')
-        //         ->description('Saldo')
-        //         ->searchable()
-        //         ->columnSpan(2)
-        //         ->iconPosition('after')
-        //         ->icon(function (Model $record) {
-        //           if ((int)$record->saldo == 0) {
-        //             return 'heroicon-o-badge-check';
-        //           }
-        //           return null;
-        //         })
-        //         ->extraAttributes(function (Model $record) {
-        //           if ((int)$record->saldo == 0) {
-        //             return ['class' => 'text-success-600 dark:text-success-600'];
-        //           }
-        //           return [];
-        //         })
-        //         ->weight(function (Model $record) {
-        //           if ((int)$record->saldo == 0) {
-        //             return 'bold';
-        //           }
-        //           return null;
-        //         })
+              Tables\Columns\TextColumn::make('saldo')
+                ->description('Saldo')
+                ->searchable()
+                ->columnSpan(2)
+                ->iconPosition('after')
+                ->icon(function (Model $record) {
+                  if ((int)$record->saldo == 0) {
+                    return 'heroicon-o-badge-check';
+                  }
+                  return null;
+                })
+                ->extraAttributes(function (Model $record) {
+                  if ((int)$record->saldo == 0) {
+                    return ['class' => 'text-success-600 dark:text-success-600'];
+                  }
+                  return [];
+                })
+                ->weight(function (Model $record) {
+                  if ((int)$record->saldo == 0) {
+                    return 'bold';
+                  }
+                  return null;
+                })
 
-        //         ->money('clp'),
-        //     ]),
-        // ]),
-        // Panel::make([
-        //   Stack::make([
-        //     Tables\Columns\TextColumn::make('bill.descripcion')
-        //       ->placeholder('FACTURA: Sin detalles')
-        //       ->html(),
-        //     TextColumn::make('descripcion')
-        //       ->html()
-        //       ->placeholder('DESC: Sin detalles'),
-        //     // TextColumn::make('phone'),
-        //   ]),
-        // ])->collapsible(),
+                ->money('clp'),
+            ]),
+        ]),
+        Panel::make([
+          Stack::make([
+            Tables\Columns\TextColumn::make('bill.descripcion')
+              ->placeholder('FACTURA: Sin detalles')
+              ->html(),
+            TextColumn::make('descripcion')
+              ->html()
+              ->placeholder('DESC: Sin detalles'),
+            // TextColumn::make('phone'),
+          ]),
+        ])->collapsible(),
 
-        Tables\Columns\TextColumn::make('fecha')
-          ->date(),
+        // Tables\Columns\TextColumn::make('fecha')
+        //   ->date(),
 
-        Tables\Columns\TextColumn::make('work.customer.name'),
-        Tables\Columns\TextColumn::make('work.title'),
-        Tables\Columns\TextColumn::make('cotization.codigo'),
-        Tables\Columns\TextColumn::make('bill.doc'),
-        Tables\Columns\TextColumn::make('total_price'),
+        // Tables\Columns\TextColumn::make('work.customer.name'),
+        // Tables\Columns\TextColumn::make('work.title'),
+        // Tables\Columns\TextColumn::make('cotization.codigo'),
+        // Tables\Columns\TextColumn::make('bill.doc'),
+        // Tables\Columns\TextColumn::make('total_price'),
 
 
         // // Tables\Columns\TextColumn::make('detalles')

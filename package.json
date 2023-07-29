@@ -19,6 +19,7 @@
         "vite": "^3.0.0"
     },
     "dependencies": {
+        "@awcodes/filament-plugin-purge": "^1.1.1",
         "imask": "^6.6.3"
     }
 }

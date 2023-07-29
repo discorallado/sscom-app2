@@ -71,65 +71,52 @@ class CustomerResource extends Resource
   {
     return $table
       ->columns([
-        Split::make([
+        Tables\Columns\TextColumn::make('rut'),
+        Tables\Columns\TextColumn::make('name')
+          ->limit(35)
+          ->tooltip(function (TextColumn $column): ?string {
+            $state = $column->getState();
+            if (\strlen($state) <= 35) {
+              return null;
+            }
+            return $state;
+          }),
+        Tables\Columns\TextColumn::make('giro')
+          ->limit(25)
+          ->tooltip(function (TextColumn $column): ?string {
+            $state = $column->getState();
+            if (strlen($state) <= 25) {
+              return null;
+            }
+            return $state;
+          }),
 
-          Grid::make(5)
-            ->schema([
-
-              Stack::make([
-                Tables\Columns\TextColumn::make('name')
-                  ->sortable()
-                  ->icon('heroicon-s-user-group')
-                  ->size('sm'),
-                Tables\Columns\TextColumn::make('giro')
-                  ->sortable()
-                  ->icon('heroicon-o-briefcase'),
-                // Tables\Columns\TextColumn::make('bill.work.cotization.codigo'),
-              ])
-                ->columnSpan(2),
-
-              Stack::make([
-                //   Tables\Columns\TextColumn::make('tipo')
-                Tables\Columns\TextColumn::make('bill.doc')->weight('bold')
-                  ->icon('heroicon-o-document-text'),
-                Tables\Columns\TextColumn::make('fecha')
-                  ->sortable()
-                  ->date(),
-              ])
-                ->columnSpan(1),
-
-
-              Tables\Columns\TextColumn::make('rut')
-                ->columnSpan(1),
-
-
-              Tables\Columns\TextColumn::make('saldo')
-                ->description('Saldo')
-                ->columnSpan(1)
-                ->money('clp'),
-
-            ]),
-        ]),
-        // Tables\Columns\TextColumn::make('fecha')
-        //     ->date(),
-        // Tables\Columns\TextColumn::make('tipo'),
-
-        // // Tables\Columns\TextColumn::make('monto'),
-        // // Tables\Columns\TextColumn::make('num_doc'),
-        // // Tables\Columns\TextColumn::make('detalles')
-        // // ->wrap(),
-        // // Tables\Columns\TextColumn::make('file'),
-        // Tables\Columns\TextColumn::make('total_price')
-        // ->money('clp'),
-        // // Tables\Columns\TextColumn::make('abono'),
-        // Tables\Columns\TextColumn::make('saldo')
-        // ->money('clp'),
-        // // Tables\Columns\TextColumn::make('observaciones'),
-        // // Tables\Columns\TextColumn::make('user.name'),
-        // Tables\Columns\TextColumn::make('customer.name')
-        // ->words(2),
+        Tables\Columns\TextColumn::make('user.name')
+          ->label('Creado por')
+          ->toggleable(isToggledHiddenByDefault: true)
+          ->searchable()
+          ->sortable(),
+        Tables\Columns\TextColumn::make('created_at')
+          ->label('Creado el')
+          ->dateTime()
+          ->toggleable(isToggledHiddenByDefault: true)
+          ->searchable()
+          ->sortable(),
+        Tables\Columns\TextColumn::make('updated_at')
+          ->label('Modificado el')
+          ->dateTime()
+          ->toggleable(isToggledHiddenByDefault: true)
+          ->searchable()
+          ->sortable(),
+        Tables\Columns\TextColumn::make('deleted_at')
+          ->label('Eliminado el')
+          ->dateTime()
+          ->toggleable(isToggledHiddenByDefault: true)
+          ->placeholder('Nunca')
+          ->searchable()
+          ->sortable(),
       ])
-      ->defaultSort('created_at', 'desc')
+      ->defaultSort('created_at', 'asc')
       ->filters([
         Tables\Filters\TrashedFilter::make(),
       ])

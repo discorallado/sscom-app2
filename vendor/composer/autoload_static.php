@@ -147,11 +147,6 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
-        'm' => 
-        array (
-            'msuhels\\editorjs\\Database\\Factories\\' => 36,
-            'msuhels\\editorjs\\' => 17,
-        ),
         'Z' => 
         array (
             'ZipStream\\' => 10,
@@ -288,8 +283,6 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
             'Intervention\\Image\\' => 19,
             'Illuminate\\Support\\' => 19,
             'Illuminate\\' => 11,
-            'Icetalker\\FilamentTableRepeater\\Database\\Factories\\' => 51,
-            'Icetalker\\FilamentTableRepeater\\' => 32,
         ),
         'H' => 
         array (
@@ -347,6 +340,8 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         ),
         'B' => 
         array (
+            'Buildix\\Timex\\Database\\Factories\\' => 33,
+            'Buildix\\Timex\\' => 14,
             'Brick\\Math\\' => 11,
             'BladeUI\\Icons\\' => 14,
             'BladeUI\\Heroicons\\' => 18,
@@ -371,14 +366,6 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-        ),
-        'msuhels\\editorjs\\Database\\Factories\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/msuhels/editorjs/database/factories',
-        ),
-        'msuhels\\editorjs\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/msuhels/editorjs/src',
         ),
         'ZipStream\\' => 
         array (
@@ -781,14 +768,6 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
         ),
-        'Icetalker\\FilamentTableRepeater\\Database\\Factories\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/icetalker/filament-table-repeater/database/factories',
-        ),
-        'Icetalker\\FilamentTableRepeater\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/icetalker/filament-table-repeater/src',
-        ),
         'HtmlSanitizer\\' => 
         array (
             0 => __DIR__ . '/..' . '/tgalopin/html-sanitizer/src',
@@ -847,10 +826,10 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         ),
         'Filament\\' => 
         array (
-            0 => __DIR__ . '/..' . '/filament/filament/src',
-            1 => __DIR__ . '/..' . '/filament/spatie-laravel-media-library-plugin/src',
-            2 => __DIR__ . '/..' . '/filament/spatie-laravel-settings-plugin/src',
-            3 => __DIR__ . '/..' . '/filament/spatie-laravel-tags-plugin/src',
+            0 => __DIR__ . '/..' . '/filament/spatie-laravel-tags-plugin/src',
+            1 => __DIR__ . '/..' . '/filament/filament/src',
+            2 => __DIR__ . '/..' . '/filament/spatie-laravel-media-library-plugin/src',
+            3 => __DIR__ . '/..' . '/filament/spatie-laravel-settings-plugin/src',
             4 => __DIR__ . '/..' . '/filament/spatie-laravel-translatable-plugin/src',
         ),
         'Faker\\' => 
@@ -938,6 +917,14 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'Buildix\\Timex\\Database\\Factories\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/buildix/timex/database/factories',
+        ),
+        'Buildix\\Timex\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/buildix/timex/src',
         ),
         'Brick\\Math\\' => 
         array (
@@ -1057,6 +1044,9 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         'App\\Filament\\Resources\\Blog\\PostResource\\Pages\\EditPost' => __DIR__ . '/../..' . '/app/Filament/Resources/Blog/PostResource/Pages/EditPost.php',
         'App\\Filament\\Resources\\Blog\\PostResource\\Pages\\ListPosts' => __DIR__ . '/../..' . '/app/Filament/Resources/Blog/PostResource/Pages/ListPosts.php',
         'App\\Filament\\Resources\\Blog\\PostResource\\RelationManagers\\CommentsRelationManager' => __DIR__ . '/../..' . '/app/Filament/Resources/Blog/PostResource/RelationManagers/CommentsRelationManager.php',
+        'App\\Filament\\Resources\\LogResource' => __DIR__ . '/../..' . '/app/Filament/Resources/LogResource.php',
+        'App\\Filament\\Resources\\LogResource\\Pages\\ManageLogs' => __DIR__ . '/../..' . '/app/Filament/Resources/LogResource/Pages/ManageLogs.php',
+        'App\\Filament\\Resources\\LogResource\\Widgets\\CalendarWidget' => __DIR__ . '/../..' . '/app/Filament/Resources/LogResource/Widgets/CalendarWidget.php',
         'App\\Filament\\Resources\\Manager\\BillResource' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/BillResource.php',
         'App\\Filament\\Resources\\Manager\\BillResource\\Pages\\CreateBill' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/BillResource/Pages/CreateBill.php',
         'App\\Filament\\Resources\\Manager\\BillResource\\Pages\\EditBill' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/BillResource/Pages/EditBill.php',
@@ -1073,6 +1063,7 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         'App\\Filament\\Resources\\Manager\\CotizationResource\\Pages\\CreateCotization' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/CotizationResource/Pages/CreateCotization.php',
         'App\\Filament\\Resources\\Manager\\CotizationResource\\Pages\\EditCotization' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/CotizationResource/Pages/EditCotization.php',
         'App\\Filament\\Resources\\Manager\\CotizationResource\\Pages\\ListCotizations' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/CotizationResource/Pages/ListCotizations.php',
+        'App\\Filament\\Resources\\Manager\\CotizationResource\\RelationManagers\\BillsRelationManager' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/CotizationResource/RelationManagers/BillsRelationManager.php',
         'App\\Filament\\Resources\\Manager\\CotizationResource\\Widgets\\CotizationStats' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/CotizationResource/Widgets/CotizationStats.php',
         'App\\Filament\\Resources\\Manager\\CustomerResource' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/CustomerResource.php',
         'App\\Filament\\Resources\\Manager\\CustomerResource\\Pages\\ManageCustomers' => __DIR__ . '/../..' . '/app/Filament/Resources/Manager/CustomerResource/Pages/ManageCustomers.php',
@@ -1119,6 +1110,7 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         'App\\Models\\Blog\\Category' => __DIR__ . '/../..' . '/app/Models/Blog/Category.php',
         'App\\Models\\Blog\\Post' => __DIR__ . '/../..' . '/app/Models/Blog/Post.php',
         'App\\Models\\Comment' => __DIR__ . '/../..' . '/app/Models/Comment.php',
+        'App\\Models\\Log' => __DIR__ . '/../..' . '/app/Models/Log.php',
         'App\\Models\\Manager\\Bill' => __DIR__ . '/../..' . '/app/Models/Manager/Bill.php',
         'App\\Models\\Manager\\Category' => __DIR__ . '/../..' . '/app/Models/Manager/Category.php',
         'App\\Models\\Manager\\Cotization' => __DIR__ . '/../..' . '/app/Models/Manager/Cotization.php',
@@ -1276,6 +1268,29 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         'Brick\\Math\\Internal\\Calculator\\GmpCalculator' => __DIR__ . '/..' . '/brick/math/src/Internal/Calculator/GmpCalculator.php',
         'Brick\\Math\\Internal\\Calculator\\NativeCalculator' => __DIR__ . '/..' . '/brick/math/src/Internal/Calculator/NativeCalculator.php',
         'Brick\\Math\\RoundingMode' => __DIR__ . '/..' . '/brick/math/src/RoundingMode.php',
+        'Buildix\\Timex\\Calendar\\Day' => __DIR__ . '/..' . '/buildix/timex/src/Calendar/Day.php',
+        'Buildix\\Timex\\Calendar\\Event' => __DIR__ . '/..' . '/buildix/timex/src/Calendar/Event.php',
+        'Buildix\\Timex\\Calendar\\EventList' => __DIR__ . '/..' . '/buildix/timex/src/Calendar/EventList.php',
+        'Buildix\\Timex\\Calendar\\Header' => __DIR__ . '/..' . '/buildix/timex/src/Calendar/Header.php',
+        'Buildix\\Timex\\Calendar\\Month' => __DIR__ . '/..' . '/buildix/timex/src/Calendar/Month.php',
+        'Buildix\\Timex\\Calendar\\Week' => __DIR__ . '/..' . '/buildix/timex/src/Calendar/Week.php',
+        'Buildix\\Timex\\Commands\\MakeAttachmentsTableCommand' => __DIR__ . '/..' . '/buildix/timex/src/Commands/MakeAttachmentsTableCommand.php',
+        'Buildix\\Timex\\Events\\EventItem' => __DIR__ . '/..' . '/buildix/timex/src/Events/EventItem.php',
+        'Buildix\\Timex\\Events\\InteractWithEvents' => __DIR__ . '/..' . '/buildix/timex/src/Events/InteractWithEvents.php',
+        'Buildix\\Timex\\Facades\\Timex' => __DIR__ . '/..' . '/buildix/timex/src/Facades/Timex.php',
+        'Buildix\\Timex\\Models\\Category' => __DIR__ . '/..' . '/buildix/timex/src/Models/Category.php',
+        'Buildix\\Timex\\Models\\Event' => __DIR__ . '/..' . '/buildix/timex/src/Models/Event.php',
+        'Buildix\\Timex\\Pages\\Timex' => __DIR__ . '/..' . '/buildix/timex/src/Pages/Timex.php',
+        'Buildix\\Timex\\Resources\\EventResource' => __DIR__ . '/..' . '/buildix/timex/src/Resources/EventResource.php',
+        'Buildix\\Timex\\Resources\\EventResource\\Pages\\CreateEvent' => __DIR__ . '/..' . '/buildix/timex/src/Resources/EventResource/Pages/CreateEvent.php',
+        'Buildix\\Timex\\Resources\\EventResource\\Pages\\EditEvent' => __DIR__ . '/..' . '/buildix/timex/src/Resources/EventResource/Pages/EditEvent.php',
+        'Buildix\\Timex\\Resources\\EventResource\\Pages\\ListEvents' => __DIR__ . '/..' . '/buildix/timex/src/Resources/EventResource/Pages/ListEvents.php',
+        'Buildix\\Timex\\Timex' => __DIR__ . '/..' . '/buildix/timex/src/Timex.php',
+        'Buildix\\Timex\\TimexServiceProvider' => __DIR__ . '/..' . '/buildix/timex/src/TimexServiceProvider.php',
+        'Buildix\\Timex\\Traits\\TimexTrait' => __DIR__ . '/..' . '/buildix/timex/src/Traits/TimexTrait.php',
+        'Buildix\\Timex\\Traits\\Uuids' => __DIR__ . '/..' . '/buildix/timex/src/Traits/Uuids.php',
+        'Buildix\\Timex\\Widgets\\Mini\\DayWidget' => __DIR__ . '/..' . '/buildix/timex/src/Widgets/Mini/DayWidget.php',
+        'Buildix\\Timex\\Widgets\\Mini\\EventWidget' => __DIR__ . '/..' . '/buildix/timex/src/Widgets/Mini/EventWidget.php',
         'Carbon\\AbstractTranslator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/AbstractTranslator.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonConverterInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonConverterInterface.php',
@@ -3389,9 +3404,6 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         'HtmlSanitizer\\Visitor\\ScriptNodeVisitor' => __DIR__ . '/..' . '/tgalopin/html-sanitizer/src/Visitor/ScriptNodeVisitor.php',
         'HtmlSanitizer\\Visitor\\StyleNodeVisitor' => __DIR__ . '/..' . '/tgalopin/html-sanitizer/src/Visitor/StyleNodeVisitor.php',
         'HtmlSanitizer\\Visitor\\TagVisitorTrait' => __DIR__ . '/..' . '/tgalopin/html-sanitizer/src/Visitor/TagVisitorTrait.php',
-        'Icetalker\\FilamentTableRepeater\\Facades\\FilamentTableRepeater' => __DIR__ . '/..' . '/icetalker/filament-table-repeater/src/Facades/FilamentTableRepeater.php',
-        'Icetalker\\FilamentTableRepeater\\FilamentTableRepeaterServiceProvider' => __DIR__ . '/..' . '/icetalker/filament-table-repeater/src/FilamentTableRepeaterServiceProvider.php',
-        'Icetalker\\FilamentTableRepeater\\Forms\\Components\\TableRepeater' => __DIR__ . '/..' . '/icetalker/filament-table-repeater/src/Forms/Components/TableRepeater.php',
         'Illuminate\\Auth\\Access\\AuthorizationException' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/AuthorizationException.php',
         'Illuminate\\Auth\\Access\\Events\\GateEvaluated' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/Events/GateEvaluated.php',
         'Illuminate\\Auth\\Access\\Gate' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/Gate.php',
@@ -8069,6 +8081,7 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         'Spatie\\ImageOptimizer\\Optimizer' => __DIR__ . '/..' . '/spatie/image-optimizer/src/Optimizer.php',
         'Spatie\\ImageOptimizer\\OptimizerChain' => __DIR__ . '/..' . '/spatie/image-optimizer/src/OptimizerChain.php',
         'Spatie\\ImageOptimizer\\OptimizerChainFactory' => __DIR__ . '/..' . '/spatie/image-optimizer/src/OptimizerChainFactory.php',
+        'Spatie\\ImageOptimizer\\Optimizers\\Avifenc' => __DIR__ . '/..' . '/spatie/image-optimizer/src/Optimizers/Avifenc.php',
         'Spatie\\ImageOptimizer\\Optimizers\\BaseOptimizer' => __DIR__ . '/..' . '/spatie/image-optimizer/src/Optimizers/BaseOptimizer.php',
         'Spatie\\ImageOptimizer\\Optimizers\\Cwebp' => __DIR__ . '/..' . '/spatie/image-optimizer/src/Optimizers/Cwebp.php',
         'Spatie\\ImageOptimizer\\Optimizers\\Gifsicle' => __DIR__ . '/..' . '/spatie/image-optimizer/src/Optimizers/Gifsicle.php',
@@ -8230,6 +8243,7 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         'Spatie\\MediaLibrary\\Conversions\\Events\\ConversionHasBeenCompleted' => __DIR__ . '/..' . '/spatie/laravel-medialibrary/src/Conversions/Events/ConversionHasBeenCompleted.php',
         'Spatie\\MediaLibrary\\Conversions\\Events\\ConversionWillStart' => __DIR__ . '/..' . '/spatie/laravel-medialibrary/src/Conversions/Events/ConversionWillStart.php',
         'Spatie\\MediaLibrary\\Conversions\\FileManipulator' => __DIR__ . '/..' . '/spatie/laravel-medialibrary/src/Conversions/FileManipulator.php',
+        'Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Avif' => __DIR__ . '/..' . '/spatie/laravel-medialibrary/src/Conversions/ImageGenerators/Avif.php',
         'Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Image' => __DIR__ . '/..' . '/spatie/laravel-medialibrary/src/Conversions/ImageGenerators/Image.php',
         'Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\ImageGenerator' => __DIR__ . '/..' . '/spatie/laravel-medialibrary/src/Conversions/ImageGenerators/ImageGenerator.php',
         'Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\ImageGeneratorFactory' => __DIR__ . '/..' . '/spatie/laravel-medialibrary/src/Conversions/ImageGenerators/ImageGeneratorFactory.php',
@@ -9399,9 +9413,6 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         'ZipStream\\Zip64\\ExtendedInformationExtraField' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Zip64/ExtendedInformationExtraField.php',
         'ZipStream\\ZipStream' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/ZipStream.php',
         'ZipStream\\Zs\\ExtendedInformationExtraField' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Zs/ExtendedInformationExtraField.php',
-        'msuhels\\editorjs\\FilamentEditorJsServiceProvider' => __DIR__ . '/..' . '/msuhels/editorjs/src/FilamentEditorJsServiceProvider.php',
-        'msuhels\\editorjs\\Forms\\Components\\Concerns\\InteractsWithTools' => __DIR__ . '/..' . '/msuhels/editorjs/src/Forms/Components/Concerns/InteractsWithTools.php',
-        'msuhels\\editorjs\\Forms\\Components\\EditorJs' => __DIR__ . '/..' . '/msuhels/editorjs/src/Forms/Components/EditorJs.php',
         'phpDocumentor\\Reflection\\Element' => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src/Element.php',
         'phpDocumentor\\Reflection\\File' => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src/File.php',
         'phpDocumentor\\Reflection\\Fqsen' => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src/Fqsen.php',

@@ -174,22 +174,26 @@ class CotizationResource extends Resource
         Tables\Columns\TextColumn::make('user.name')
           ->label('Creado por')
           ->toggleable(isToggledHiddenByDefault: true)
+          ->searchable()
           ->sortable(),
         Tables\Columns\TextColumn::make('created_at')
           ->label('Creado el')
           ->dateTime()
           ->toggleable(isToggledHiddenByDefault: true)
+          ->searchable()
           ->sortable(),
         Tables\Columns\TextColumn::make('updated_at')
           ->label('Modificado el')
           ->dateTime()
           ->toggleable(isToggledHiddenByDefault: true)
+          ->searchable()
           ->sortable(),
         Tables\Columns\TextColumn::make('deleted_at')
           ->label('Eliminado el')
           ->dateTime()
           ->toggleable(isToggledHiddenByDefault: true)
           ->placeholder('Nunca')
+          ->searchable()
           ->sortable(),
       ])
 
