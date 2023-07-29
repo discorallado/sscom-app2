@@ -22,14 +22,14 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         '29ffe97919493792170d47eb03a68da9' => __DIR__ . '/..' . '/blade-ui-kit/blade-icons/src/helpers.php',
         'b69d5f1f95cd1ed438c038b6cbcc45b5' => __DIR__ . '/..' . '/filament/notifications/src/Testing/Autoload.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
-        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '9261e07cd92c53dcc971c7c88c176c04' => __DIR__ . '/..' . '/danharrin/date-format-converter/src/helpers.php',
         '9720327d09ed9a4ba00c9b5071b71c7d' => __DIR__ . '/..' . '/danharrin/date-format-converter/src/standards.php',
+        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '2ad94ea6f6f6013119e9abcf4e302a08' => __DIR__ . '/..' . '/filament/forms/src/helpers.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         'eee56a36884c3af04e64bac85043e771' => __DIR__ . '/..' . '/akaunting/laravel-money/src/helpers.php',
-        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '2c620c99f96a2b964346b45a4d1d1e64' => __DIR__ . '/..' . '/spatie/invade/src/functions.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'ebb446bb6d02e998480945fbbb73dc64' => __DIR__ . '/..' . '/filament/filament/src/helpers.php',
         '35a6ad97d21e794e7e22a17d806652e4' => __DIR__ . '/..' . '/nunomaduro/termwind/src/Functions.php',
         '09f6b20656683369174dd6fa83b7e5fb' => __DIR__ . '/..' . '/symfony/polyfill-uuid/bootstrap.php',
@@ -212,6 +212,7 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
             'Spatie\\EloquentSortable\\' => 24,
             'Spatie\\Backtrace\\' => 17,
             'Sabberworm\\CSS\\' => 15,
+            'Saade\\FilamentFullCalendar\\' => 27,
         ),
         'R' => 
         array (
@@ -589,6 +590,10 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         array (
             0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/src',
         ),
+        'Saade\\FilamentFullCalendar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/saade/filament-fullcalendar/src',
+        ),
         'RyanChandler\\BladeCaptureDirective\\Database\\Factories\\' => 
         array (
             0 => __DIR__ . '/..' . '/ryangjchandler/blade-capture-directive/database/factories',
@@ -826,10 +831,10 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         ),
         'Filament\\' => 
         array (
-            0 => __DIR__ . '/..' . '/filament/spatie-laravel-tags-plugin/src',
-            1 => __DIR__ . '/..' . '/filament/filament/src',
-            2 => __DIR__ . '/..' . '/filament/spatie-laravel-media-library-plugin/src',
-            3 => __DIR__ . '/..' . '/filament/spatie-laravel-settings-plugin/src',
+            0 => __DIR__ . '/..' . '/filament/filament/src',
+            1 => __DIR__ . '/..' . '/filament/spatie-laravel-media-library-plugin/src',
+            2 => __DIR__ . '/..' . '/filament/spatie-laravel-settings-plugin/src',
+            3 => __DIR__ . '/..' . '/filament/spatie-laravel-tags-plugin/src',
             4 => __DIR__ . '/..' . '/filament/spatie-laravel-translatable-plugin/src',
         ),
         'Faker\\' => 
@@ -7654,6 +7659,22 @@ class ComposerStaticInit69e384bf3a0a25e04f61057beeaa40b2
         'Ramsey\\Uuid\\Validator\\ValidatorInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/Validator/ValidatorInterface.php',
         'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirective' => __DIR__ . '/..' . '/ryangjchandler/blade-capture-directive/src/BladeCaptureDirective.php',
         'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider' => __DIR__ . '/..' . '/ryangjchandler/blade-capture-directive/src/BladeCaptureDirectiveServiceProvider.php',
+        'Saade\\FilamentFullCalendar\\Commands\\UpgradeFilamentFullCalendarCommand' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Commands/UpgradeFilamentFullCalendarCommand.php',
+        'Saade\\FilamentFullCalendar\\Facades\\FilamentFullCalendar' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Facades/FilamentFullCalendar.php',
+        'Saade\\FilamentFullCalendar\\FilamentFullCalendar' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/FilamentFullCalendar.php',
+        'Saade\\FilamentFullCalendar\\FilamentFullCalendarServiceProvider' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/FilamentFullCalendarServiceProvider.php',
+        'Saade\\FilamentFullCalendar\\Widgets\\Concerns\\AuthorizesActions' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Widgets/Concerns/AuthorizesActions.php',
+        'Saade\\FilamentFullCalendar\\Widgets\\Concerns\\CanFetchEvents' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Widgets/Concerns/CanFetchEvents.php',
+        'Saade\\FilamentFullCalendar\\Widgets\\Concerns\\CanManageEvents' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Widgets/Concerns/CanManageEvents.php',
+        'Saade\\FilamentFullCalendar\\Widgets\\Concerns\\CanManageModals' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Widgets/Concerns/CanManageModals.php',
+        'Saade\\FilamentFullCalendar\\Widgets\\Concerns\\CanRefreshEvents' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Widgets/Concerns/CanRefreshEvents.php',
+        'Saade\\FilamentFullCalendar\\Widgets\\Concerns\\CantManageEvents' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Widgets/Concerns/CantManageEvents.php',
+        'Saade\\FilamentFullCalendar\\Widgets\\Concerns\\EvaluateClosures' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Widgets/Concerns/EvaluateClosures.php',
+        'Saade\\FilamentFullCalendar\\Widgets\\Concerns\\FiresEvents' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Widgets/Concerns/FiresEvents.php',
+        'Saade\\FilamentFullCalendar\\Widgets\\Concerns\\UsesConfig' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Widgets/Concerns/UsesConfig.php',
+        'Saade\\FilamentFullCalendar\\Widgets\\Forms\\CreateEventForm' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Widgets/Forms/CreateEventForm.php',
+        'Saade\\FilamentFullCalendar\\Widgets\\Forms\\EditEventForm' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Widgets/Forms/EditEventForm.php',
+        'Saade\\FilamentFullCalendar\\Widgets\\FullCalendarWidget' => __DIR__ . '/..' . '/saade/filament-fullcalendar/src/Widgets/FullCalendarWidget.php',
         'Sabberworm\\CSS\\CSSList\\AtRuleBlockList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/AtRuleBlockList.php',
         'Sabberworm\\CSS\\CSSList\\CSSBlockList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/CSSBlockList.php',
         'Sabberworm\\CSS\\CSSList\\CSSList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/CSSList.php',
