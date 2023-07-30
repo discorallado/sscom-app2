@@ -8,30 +8,30 @@
  */
 
 return [
-    'timeZone' => config('app.timezone'),
+  'timeZone' => config('app.timezone'),
 
-    'locale' => config('app.locale'),
+  'locale' => config('app.locale'),
 
-    'plugins' => [
-        'dayGrid' => true,
-        'timeGrid' => true,
-        'interaction' => true,
-        'list' => true,
-        'rrule' => true,
-        'resourceTimeline' => true,
-    ],
+  'plugins' => [
+    'dayGrid' => true,
+    'timeGrid' => false,
+    'resourceTimeline' => false,
+    'interaction' => true,
+    'list' => true,
+    'rrule' => true,
+  ],
 
-    'headerToolbar' => [
-        'left' => 'prev,next today',
-        'center' => 'title',
-        'right' => 'dayGridMonth,dayGridWeek,dayGridDay',
-    ],
+  'headerToolbar' => [
+    'left' => 'prev,next today',
+    'center' => 'title',
+    'right' => 'dayGridMonth,dayGridWeek,dayGridDay',
+  ],
 
-    'navLinks' => true,
+  'navLinks' => true,
 
-    'editable' => true,
+  'editable' => true,
 
-    'selectable' => false,
+  'selectable' => true,
 
-    'dayMaxEvents' => true,
+  'dayMaxEvents' => true,
 ];

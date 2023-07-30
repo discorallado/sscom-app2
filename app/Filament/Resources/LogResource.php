@@ -20,7 +20,7 @@ class LogResource extends Resource
 
   protected static ?string $slug = 'logs';
 
-  protected static ?string $modelLabel = 'Bitacora';
+  protected static ?string $modelLabel = 'Entrada';
 
   protected static ?string $pluralModelLabel = 'Bitacora';
 
@@ -59,16 +59,21 @@ class LogResource extends Resource
           ->limit(15)
           ->searchable()
           ->sortable(),
-        Tables\Columns\TextColumn::make('date')
-          ->label('Fecha')
+        Tables\Columns\TextColumn::make('start')
+          ->label('Fecha inicio')
           ->date()
           ->searchable()
           ->sortable(),
-        Tables\Columns\TextColumn::make('text')
-          ->label('Fecha')
-          ->words(3)
+        Tables\Columns\TextColumn::make('end')
+          ->label('Fecha termino')
+          ->date()
           ->searchable()
           ->sortable(),
+        // Tables\Columns\TextColumn::make('text')
+        //   ->label('Contenido')
+        //   ->words(3)
+        //   ->searchable()
+        //   ->sortable(),
 
 
         Tables\Columns\TextColumn::make('user.name')
@@ -100,7 +105,7 @@ class LogResource extends Resource
         Tables\Filters\TrashedFilter::make(),
       ])
       ->actions([
-        Tables\Actions\ViewAction::make(),
+        // Tables\Actions\ViewAction::make(),
         Tables\Actions\EditAction::make(),
         Tables\Actions\DeleteAction::make(),
         Tables\Actions\ForceDeleteAction::make(),

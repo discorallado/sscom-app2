@@ -12,7 +12,7 @@ class Log extends Model
 {
   use HasFactory;
   use SoftDeletes;
-  use InteractsWithMedia;
+  //   use InteractsWithMedia;
 
   protected $table = 'logs';
 

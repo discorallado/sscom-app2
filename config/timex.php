@@ -26,7 +26,7 @@ return [
   'mini' => [
     'isMiniCalendarEnabled' => true,
     'isDayViewHidden' => false,
-    'isNextMeetingViewHidden' => false,
+    'isNextMeetingViewHidden' => true,
   ],
 
   /*
@@ -48,7 +48,7 @@ return [
 
   'dropDownCols' => 3,
 
-  'isPastCreationEnabled' => false,
+  'isPastCreationEnabled' => true,
 
   /*
     |--------------------------------------------------------------------------

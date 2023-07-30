@@ -36,21 +36,7 @@ module.exports = {
     require('@tailwindcss/typography'),
     plugin(function ({ addComponents }) {
       addComponents({
-        '.filament-button, ': {
-          borderRadius: '2px !important'
-        },
-        '.filament-sidebar-item > a': {
-          borderRadius: '0 !important'
-        },
-        '.filament-tables-pagination div': {
-          borderRadius: '0 !important'
-        },
-        '.ring-2': {
-          borderRadius: '0 !important'
-        },
-        'input,select': {
-          borderRadius: '0 !important'
-        },
+
       })
     })
   ],
