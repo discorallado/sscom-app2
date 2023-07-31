@@ -87,7 +87,7 @@ class WorkResource extends Resource
 
           ]),
 
-          Forms\Components\Section::make('Detalles')
+        Forms\Components\Section::make('Detalles')
           ->columns(1)
           ->description('Detalles del trabajo.')
           ->icon('heroicon-o-identification')
@@ -146,7 +146,7 @@ class WorkResource extends Resource
         Tables\Columns\TextColumn::make('termino')
           ->date()
           ->label('Fecha término')
-          ->placeholder('[ACTIVA]')
+          ->placeholder('[ACTIVO]')
           ->searchable()
           ->extraAttributes(function (?Model $record) {
             $termino = $record->termino;
@@ -168,10 +168,10 @@ class WorkResource extends Resource
         Tables\Filters\Filter::make('created_at')
           ->form([
             Forms\Components\DatePicker::make('created_from')
-            ->label('Creado desde: ')
+              ->label('Creado desde: ')
               ->placeholder(fn ($state): string => 'Ene 1, ' . now()->subYear()->format('Y')),
             Forms\Components\DatePicker::make('created_until')
-            ->label('Creado hasta: ')
+              ->label('Creado hasta: ')
               ->placeholder(fn ($state): string => now()->format('M d, Y')),
           ])
           ->query(function (Builder $query, array $data): Builder {

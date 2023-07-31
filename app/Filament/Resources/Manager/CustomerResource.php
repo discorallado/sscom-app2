@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CustomerResource extends Resource
 {
+  public $record;
+
   protected static ?string $model = Customer::class;
 
   protected static ?int $navigationSort = 6;
@@ -137,12 +139,13 @@ class CustomerResource extends Resource
   {
     return [
       'index' => Pages\ManageCustomers::route('/'),
+      'informe' => Pages\CustomerReport::route('/informe/{record}'),
     ];
   }
 
   public static function getEloquentQuery(): Builder
   {
-    return parent::getEloquentQuery()
+    return static::getModel()::query()
       ->withoutGlobalScopes([
         SoftDeletingScope::class,
       ]);
