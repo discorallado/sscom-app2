@@ -8,7 +8,8 @@ module.exports = {
     './resources/**/*.blade.php',
     './vendor/filament/**/*.blade.php',
     "./vendor/suleymanozev/**/*.blade.php",
-    './vendor/koalafacade/filament-alertbox/**/*.blade.php'
+    './vendor/koalafacade/filament-alertbox/**/*.blade.php',
+    './awcodes/filament-versions/resources/**/*.blade.php',
 
   ],
   safelist: [
