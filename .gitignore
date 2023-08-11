@@ -6,3 +6,5 @@ nouso
 livewire-tmp
 /framework
 framework
+.editorconfig
+*.zip
