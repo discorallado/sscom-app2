@@ -29,6 +29,7 @@
         "suleymanozev/filament-radio-button-field": "^2.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.8",
         "barryvdh/laravel-ide-helper": "^2.13",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.1",

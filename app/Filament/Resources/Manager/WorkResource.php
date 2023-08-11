@@ -223,6 +223,7 @@ class WorkResource extends Resource
     return $model::where('termino', '=', null)->count();
   }
 
+
   public static function getPages(): array
   {
     return [
@@ -230,6 +231,7 @@ class WorkResource extends Resource
       'create' => Pages\CreateWork::route('/create'),
       'view' => Pages\ViewWork::route('/{record}'),
       'edit' => Pages\EditWork::route('/{record}/edit'),
+      'report' => Pages\ReportWork::route('/{record}/report'),
     ];
   }
 

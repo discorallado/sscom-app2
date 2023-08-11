@@ -139,7 +139,6 @@ class CustomerResource extends Resource
   {
     return [
       'index' => Pages\ManageCustomers::route('/'),
-      'informe' => Pages\CustomerReport::route('/informe/{record}'),
     ];
   }
 

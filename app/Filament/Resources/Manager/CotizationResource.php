@@ -165,7 +165,7 @@ class CotizationResource extends Resource
           ->searchable()
           ->sortable(),
 
-        Tables\Columns\TextColumn::make('payments_sum')
+        Tables\Columns\TextColumn::make('payments_sum_abono')
           ->label('Pagos')
           ->placeholder('S/P')
           ->sum('payments', 'abono')

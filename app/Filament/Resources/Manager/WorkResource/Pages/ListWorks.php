@@ -18,5 +18,4 @@ class ListWorks extends ListRecords
       Actions\CreateAction::make(),
     ];
   }
-
 }

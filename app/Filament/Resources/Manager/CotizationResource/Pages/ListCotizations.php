@@ -13,10 +13,7 @@ class ListCotizations extends ListRecords
   protected static string $resource = CotizationResource::class;
   public array $data_list = [
     'calc_columns' => [
-      'total_price',
-    ],
-    'calc_columns_format' => [
-      'money_clp',
+      'total_price' => 'money_clp'
     ],
   ];
 
